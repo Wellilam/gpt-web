@@ -250,7 +250,7 @@ html.gptweb :is(body > .select2-container, body > dialog.popup .select2-containe
     html.gptweb #right-nav-panel { gap: 0; }
     html.gptweb #right-nav-panel .gptweb-panel-heading { margin: 0 0 20px; font-size: 24px; }
     html.gptweb #right-nav-panel:has(#rm_characters_block[style*="display: none"]) > .gptweb-panel-heading { display: none; }
-    html.gptweb #right-nav-panel > .scrollableInner { min-height: 0; height: auto; max-height: none; flex: 1; overflow-y: auto; }
+    html.gptweb #right-nav-panel > .scrollableInner { min-height: 0; height: auto; max-height: none; flex: 1; overflow-y: auto; scrollbar-width: none; }
     html.gptweb #right-nav-panel :is(#rm_characters_block, #rm_ch_create_block, #form_create, #rm_print_characters_block) { height: auto; overflow: visible; }
     html.gptweb #right-nav-panel #charListFixedTop { display: flex; flex-direction: column; gap: 12px; padding: 0; }
     html.gptweb #right-nav-panel #form_character_search_form { display: flex !important; position: relative; }
