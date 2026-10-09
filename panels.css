@@ -1,0 +1,231 @@
+/* Native controls keep their IDs, events and visibility. Scope excludes chat/card content. */
+html.gptweb :is(
+    #top-settings-holder > .drawer > .drawer-content,
+    body > dialog.popup,
+    #completion_prompt_manager_popup,
+    #dialogue_popup,
+    #character_popup
+) {
+    --mainFontFamily: var(--gw-font);
+    --mainFontSize: 14px;
+    --SmartThemeBodyColor: var(--gw-text);
+    --SmartThemeEmColor: var(--gw-muted);
+    --SmartThemeBlurTintColor: var(--gw-page);
+    --SmartThemeBorderColor: var(--gw-line);
+    --SmartThemeShadowColor: transparent;
+    --SmartThemeCheckboxTickColor: var(--gw-button-text);
+    --SmartThemeQuoteColor: var(--gw-accent);
+    --interactable-outline-color: var(--gw-text);
+    --shadowWidth: 0;
+    color: var(--gw-text);
+    font-family: var(--gw-font);
+    font-size: 14px;
+    line-height: 1.55;
+    text-shadow: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gw-line) transparent;
+
+    & :is(h3, h4, h5, .standoutHeader, .inline-drawer-header) {
+        background: transparent;
+        background-image: none;
+        color: var(--gw-text);
+        text-shadow: none;
+        box-shadow: none;
+        border: 0;
+        border-radius: 0;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-align: start;
+    }
+    & h3 { font-size: 20px; line-height: 1.4; margin-block: 8px 20px; }
+    & :is(h4, .standoutHeader) { font-size: 14px; padding: 12px 0; margin-block: 8px; }
+    & h5 { font-size: 13px; margin-block: 8px; }
+    & :is(small, .text_muted, .notes, .ch_description) { color: var(--gw-muted); line-height: 1.55; }
+    & .note-link-span { color: var(--gw-muted); font-size: 13px; }
+    & :is(.inline-drawer-header, .title_restorable) { gap: 12px; align-items: center; }
+    & .inline-drawer-header { min-height: 48px; padding: 12px 0; border-bottom: 1px solid var(--gw-line); }
+    & .inline-drawer-icon { font-size: 14px; color: var(--gw-muted); }
+    & .inline-drawer-content { padding-block: 14px; }
+    & .standoutHeader ~ .inline-drawer-content { background: transparent; border: 0; border-radius: 0; padding: 14px 0; }
+    & .settingsSectionWrap { padding: 16px; border: 1px solid var(--gw-line); border-radius: 16px; background: transparent; }
+    & hr { border: 0; height: 1px; background: var(--gw-line); opacity: 1; margin-block: 20px; }
+
+    & :is(textarea, select, input:not([type]), input[type=text], input[type=password], input[type=number], input[type=search], input[type=url], input[type=email]) {
+        min-height: 40px;
+        min-width: 0;
+        max-width: 100%;
+        padding: 9px 12px;
+        border: 1px solid var(--gw-line);
+        border-radius: 10px;
+        background: var(--gw-surface);
+        color: var(--gw-text);
+        font-family: var(--gw-font);
+        font-size: 14px;
+        line-height: 1.5;
+        text-shadow: none;
+        box-shadow: none;
+        filter: none;
+    }
+    & textarea { resize: vertical; }
+    & select { padding-right: 28px; cursor: pointer; }
+    & select:not([multiple]):not([size]) { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='1.8'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-position: right 10px center; background-repeat: no-repeat; }
+    & select option { color: var(--gw-text); background: var(--gw-page); }
+    & :is(input, textarea, select):focus-visible { outline: 2px solid var(--gw-text); outline-offset: 2px; }
+    & :is(input, textarea, select):disabled { opacity: .5; cursor: not-allowed; }
+    & :is(.menu_button, button:not(.select2-selection__choice__remove):not(.select2-selection__clear), input[type=button], input[type=submit]) {
+        min-height: 34px;
+        min-width: 34px;
+        padding: 7px 10px;
+        margin: 2px;
+        border: 1px solid var(--gw-line);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--gw-text);
+        box-shadow: none;
+        text-shadow: none;
+        filter: none;
+        transition: background-color .15s;
+        white-space: nowrap;
+    }
+    & .menu_button:not([class*="fa-"]) { font-family: var(--gw-font); font-size: 13px; }
+    & :is(.menu_button, button, input[type=button], input[type=submit]):hover { background: var(--gw-hover); filter: none; }
+    & :is(.menu_button, button):focus-visible { outline: 2px solid var(--gw-text); outline-offset: 2px; }
+    & :is(button:disabled, .menu_button.disabled) { opacity: .4; cursor: not-allowed; }
+    & :is(.menu_button.toggleEnabled, .menu_button.toggled, .popup-button-ok) { background: var(--gw-button); color: var(--gw-button-text); border-color: transparent; }
+    & :is(.redWarningBG, .menu_button.redWarningBG) { background: #b42318; color: #fff; border-color: transparent; }
+    & .checkbox_label { gap: 10px; align-items: center; min-height: 36px; margin-block: 3px; }
+    & input[type=checkbox] {
+        width: 18px; height: 18px; border-radius: 5px;
+        border: 1px solid var(--gw-muted); background: transparent;
+        outline: none; box-shadow: none; filter: none; transform: none;
+    }
+    & input[type=checkbox]:checked { background: var(--gw-button); border-color: var(--gw-button); }
+    & input[type=radio] { accent-color: var(--gw-button); width: 18px; height: 18px; }
+    & input[type=range] {
+        height: 4px !important;
+        border: 0;
+        border-radius: 8px !important;
+        background: var(--gw-line) !important;
+        box-shadow: none !important;
+        filter: none;
+        margin-block: 14px !important;
+    }
+    & input[type=range]::-webkit-slider-thumb { width: 16px; height: 16px; background: var(--gw-button); border: 2px solid var(--gw-page); box-shadow: 0 0 0 1px var(--gw-line); }
+    & input[type=range]::-moz-range-thumb { width: 14px; height: 14px; background: var(--gw-button); border: 2px solid var(--gw-page); border-radius: 50%; }
+    & .range-block { gap: 8px; margin-block: 12px 20px; }
+    & .range-block-title { text-align: start; font-size: 14px; font-weight: 500; }
+    & .range-block-range-and-counter { align-items: center; gap: 16px; }
+    & :is(.range-block-counter input, .neo-range-input) { border-radius: 10px; min-height: 36px; text-align: center; }
+    & .range-block-counter input { width: 88px; }
+    & :is(.responsiveTable th, .responsiveTable td) { padding: 10px; border-color: var(--gw-line); }
+    & .responsiveTable th { color: var(--gw-muted); font-weight: 500; }
+    & :is(.character_select, .group_select, .avatar-container) { padding: 12px; margin-block: 4px; border-radius: 12px; }
+    & :is(.character_select, .group_select, .avatar-container):hover { background: var(--gw-hover); }
+    & .ch_name { font-weight: 550; }
+    & .tag { background: var(--gw-surface); color: var(--gw-muted); border: 1px solid var(--gw-line); border-radius: 6px; box-shadow: none; }
+    & .world_entry { background: transparent; border: 1px solid var(--gw-line); border-radius: 12px; margin-bottom: 12px; }
+    & .world_entry .inline-drawer-header { padding: 12px; }
+    & .world_entry .inline-drawer-content { padding: 16px; }
+    & .bg_example { border: 1px solid var(--gw-line); border-radius: 12px; box-shadow: none; }
+
+    & .select2-container { min-width: 0; max-width: 100%; }
+    & :is(.select2-selection--single, .select2-selection--multiple) { min-height: 40px; height: auto; padding: 4px 8px; border: 1px solid var(--gw-line); border-radius: 10px; background: var(--gw-surface); }
+    & .select2-selection__rendered { color: var(--gw-text); }
+    & .select2-selection__choice { background: var(--gw-page); color: var(--gw-text); border: 1px solid var(--gw-line); border-radius: 6px; }
+    & .select2-selection__choice__remove { color: var(--gw-muted); }
+    & textarea.select2-search__field { min-height: 24px; padding: 0; background: transparent; border: 0; border-radius: 0; }
+}
+
+html:not(.gptweb) .gptweb-panel-heading { display: none; }
+html.gptweb .gptweb-panel-heading { font: 600 20px/1.4 var(--gw-font); color: var(--gw-text); text-shadow: none; margin: 4px 52px 20px 0; flex-shrink: 0; }
+html.gptweb #left-nav-panel #lm_button_panel_pin_div { position: absolute; top: 22px; right: 48px; font-size: 16px; }
+html.gptweb #left-nav-panel #clickSlidersTips { position: static; text-align: start; margin: 0 0 12px; padding: 0; color: var(--gw-muted); font-size: 12px; }
+
+/* Settings sections use a readable column instead of the host's dense three-column sheet. */
+html.gptweb #user-settings-block-content { flex-direction: column; gap: 28px; max-width: 720px; margin: 24px auto; }
+html.gptweb #user-settings-block-content > div { flex: none; width: 100%; border-bottom: 1px solid var(--gw-line); padding-bottom: 24px; }
+html.gptweb #user-settings-block :is([name="themeElements"], [name="MiscellaneousToggles"], [name="ChatAndMessageToggles"]) .checkbox_label { padding-block: 4px; }
+html.gptweb #UI-language-block { gap: 12px; }
+html.gptweb #version_display { color: var(--gw-muted); }
+html.gptweb #rm_api_block > :is(form, div),
+html.gptweb #AdvancedFormatting > div { max-width: 760px; margin-inline: auto; }
+html.gptweb #rm_api_block .API-logo { margin-block: 16px; }
+html.gptweb #extensions_settings .inline-drawer-header,
+html.gptweb #extensions_settings2 .inline-drawer-header { background: none; border: 0; border-bottom: 1px solid var(--gw-line); border-radius: 0; padding: 16px 4px; }
+html.gptweb #rm_extensions_block .extensions_block { gap: 16px; }
+
+/* Preset and prompt controls retain native rendering and model-specific visibility. */
+html.gptweb #left-nav-panel .scrollableInner { padding: 4px 12px; }
+html.gptweb #ai_response_configuration { flex-direction: column; gap: 24px; max-width: 720px; margin-inline: auto; }
+html.gptweb #ai_response_configuration > div { width: 100%; flex: none; min-width: 0; }
+html.gptweb #respective-presets-block { padding-bottom: 20px; border-bottom: 1px solid var(--gw-line); }
+html.gptweb #textgenerationwebui_api-settings [data-tg-samplers] { flex-basis: 45%; padding: 12px; border: 1px solid var(--gw-line); border-radius: 12px; }
+html.gptweb #completion_prompt_manager { width: 100%; }
+html.gptweb #completion_prompt_manager #completion_prompt_manager_list { min-height: 0; padding: 0; background: transparent; border: 0; }
+html.gptweb #completion_prompt_manager #completion_prompt_manager_list li { grid-template-columns: minmax(0, 1fr) 110px 48px; gap: 8px; }
+html.gptweb #completion_prompt_manager #completion_prompt_manager_list li.completion_prompt_manager_prompt { border: 0; border-bottom: 1px solid var(--gw-line); padding: 14px 4px; margin: 0; min-height: 56px; }
+html.gptweb #completion_prompt_manager #completion_prompt_manager_list .completion_prompt_manager_prompt_name { white-space: normal; overflow-wrap: anywhere; }
+html.gptweb #completion_prompt_manager :is(.completion_prompt_manager_header, .completion_prompt_manager_list_head) { color: var(--gw-muted); font-size: 12px; }
+html.gptweb #completion_prompt_manager #completion_prompt_manager_list li.completion_prompt_manager_prompt span span span { filter: none; opacity: 1; margin: 0; width: 30px; height: 32px; border-radius: 8px; }
+html.gptweb #completion_prompt_manager #completion_prompt_manager_list li.completion_prompt_manager_prompt .prompt_manager_prompt_controls span { width: 32px; height: 32px; }
+html.gptweb #completion_prompt_manager #completion_prompt_manager_list .completion_prompt_manager_prompt_name .fa-solid { color: var(--gw-muted); }
+html.gptweb #completion_prompt_manager .completion_prompt_manager_prompt_disabled .completion_prompt_manager_prompt_name { color: var(--gw-muted); }
+html.gptweb #completion_prompt_manager :is(.completion_prompt_manager_footer, .completion_prompt_manager_header) { gap: 12px; flex-wrap: wrap; padding-block: 16px; }
+html.gptweb #completion_prompt_manager_popup {
+    position: fixed; z-index: 4010 !important;
+    top: calc(var(--gptweb-top, 0px) + var(--gw-header));
+    left: calc(var(--gw-rail) + 20px); right: 20px;
+    width: auto; min-width: 0; max-width: 940px;
+    height: calc(var(--gptweb-height, 100dvh) - var(--gw-header) - var(--gw-drawer-gap));
+    max-height: calc(var(--gptweb-height, 100dvh) - var(--gw-header) - var(--gw-drawer-gap));
+    margin: 0 auto; padding: 24px; border: 1px solid var(--gw-line); border-radius: 16px;
+    background: var(--gw-page); backdrop-filter: none; box-shadow: 0 12px 48px #0002;
+}
+html.gptweb #completion_prompt_manager_popup .completion_prompt_manager_popup_entry { padding: 0; }
+html.gptweb #completion_prompt_manager_popup_entry_form_prompt { min-height: 220px; line-height: 1.7; }
+
+html.gptweb dialog.gptweb-history-dialog { width: 720px; }
+html.gptweb #gptweb-history-view { text-align: left; }
+html.gptweb #gptweb-history-view [hidden] { display: none; }
+html.gptweb #gptweb-history-view .gptweb-history-status { color: var(--gw-muted); font-size: 13px; }
+html.gptweb #gptweb-history-view .gptweb-history-list { display: flex; flex-direction: column; gap: 8px; }
+html.gptweb #gptweb-history-view .gptweb-history-row { display: flex; flex-direction: column; align-items: stretch; gap: 5px; width: 100%; min-width: 0 !important; margin: 0 !important; padding: 16px !important; text-align: left; white-space: normal !important; font: 14px/1.5 var(--gw-font); }
+html.gptweb #gptweb-history-view .gptweb-history-entity { font-weight: 600; }
+html.gptweb #gptweb-history-view :is(.gptweb-history-title, .gptweb-history-time) { font-size: 12px; color: var(--gw-muted); overflow-wrap: anywhere; }
+html.gptweb #gptweb-history-view .gptweb-history-preview { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+
+/* Native dialogs and body-mounted dropdowns belong to the same settings surface. */
+html.gptweb body > dialog.popup:not(.transparent_dialogue_popup) { background: var(--gw-page); padding: 24px; border: 1px solid var(--gw-line); border-radius: 20px; box-shadow: 0 20px 80px #0003; }
+html.gptweb body > dialog.popup::backdrop { background: #0006; backdrop-filter: blur(3px); }
+html.gptweb body > dialog.popup .popup-controls { gap: 10px; padding-top: 20px; }
+html.gptweb body > dialog.popup .popup-content { padding-inline: 0; }
+html.gptweb :is(body > .select2-container, body > dialog.popup .select2-container) {
+    --SmartThemeBodyColor: var(--gw-text);
+    --SmartThemeBlurTintColor: var(--gw-page);
+    --SmartThemeBorderColor: var(--gw-line);
+    --SmartThemeEmColor: var(--gw-muted);
+    font: 14px var(--gw-font);
+    color: var(--gw-text);
+    & .select2-dropdown { padding: 6px; border-radius: 12px; background: var(--gw-page); color: var(--gw-text); box-shadow: 0 8px 32px #0002; backdrop-filter: none; text-shadow: none; }
+    & .select2-search__field { padding: 10px; border: 1px solid var(--gw-line); border-radius: 8px; background: var(--gw-surface); color: var(--gw-text); }
+    & .select2-results__option { padding-block: 10px; padding-right: 10px; border-radius: 6px; color: var(--gw-text); }
+    & .select2-results__option--highlighted[aria-selected], & .select2-results__option--selected { background: var(--gw-hover); color: var(--gw-text); }
+}
+
+@media (max-width: 700px) {
+    html.gptweb #rm_extensions_block .extensions_block > .flex-container:first-child > h3 { flex-basis: 100%; }
+    html.gptweb #PersonaManagement > .flex-container:first-child > .flex-container:first-child { flex-direction: column; align-items: stretch; gap: 12px; }
+    html.gptweb #WorldInfo #world_editor_select { flex-basis: 100%; width: 100%; }
+    html.gptweb #WorldInfo #world_editor_select + .select2-container { flex-basis: 100%; width: 100% !important; }
+    html.gptweb #WorldInfo #world_info_sort_order { min-width: 160px; }
+    html.gptweb #left-nav-panel .scrollableInner { padding-inline: 2px; }
+    html.gptweb #ai_response_configuration { gap: 20px; }
+    html.gptweb #user-settings-block-content { margin-top: 16px; }
+    html.gptweb #completion_prompt_manager_popup { left: 8px; right: 8px; padding: 16px; }
+    html.gptweb #completion_prompt_manager #completion_prompt_manager_list li { grid-template-columns: minmax(0, 1fr) 100px 32px; gap: 4px; }
+    html.gptweb #completion_prompt_manager_popup .completion_prompt_manager_popup_entry_form_control { min-width: 0; }
+    html.gptweb #completion_prompt_manager_popup .completion_prompt_manager_popup_entry_form > .flex-container > .completion_prompt_manager_popup_entry_form_control { flex-basis: 45%; }
+    html.gptweb #completion_prompt_manager_popup :is(.completion_prompt_manager_popup_entry_form, #completion_prompt_manager_popup_edit) { height: auto; }
+    html.gptweb #completion_prompt_manager_popup .completion_prompt_manager_popup_entry_form > .flex-container { align-content: start; }
+    html.gptweb body > dialog.popup:not(.transparent_dialogue_popup) { padding: 18px; border-radius: 16px; }
+}

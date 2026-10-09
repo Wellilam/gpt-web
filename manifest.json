@@ -1,0 +1,16 @@
+{
+    "display_name": "GPT Web",
+    "loading_order": 100,
+    "js": "index.js",
+    "css": "style.css",
+    "author": "Wellilam",
+    "version": "0.2.1",
+    "homePage": "https://github.com/Wellilam/gpt-web",
+    "minimum_client_version": "1.19.0",
+    "hooks": {
+        "activate": "onActivate",
+        "disable": "onDisable",
+        "delete": "onDisable",
+        "clean": "onDisable"
+    }
+}
