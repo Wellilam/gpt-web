@@ -14,6 +14,8 @@ export const petSkins = {
 };
 const animations = {
     idle: { row: 0, durations: [1680, 660, 660, 840, 840, 1920], loop: true },
+    walkingRight: { row: 1, durations: [120, 120, 120, 120, 120, 120, 120, 220], loop: true },
+    walkingLeft: { row: 2, durations: [120, 120, 120, 120, 120, 120, 120, 220], loop: true },
     waving: { row: 3, durations: [140, 140, 140, 280], loop: false },
     jumping: { row: 4, durations: [140, 140, 140, 140, 280], loop: false },
     waiting: { row: 6, durations: [150, 150, 150, 150, 150, 260], loop: true },
@@ -26,6 +28,7 @@ export function mountPet(settings, options, saveSettings) {
     const status = document.querySelector('#gptweb-pet-status');
     const stopButton = document.querySelector('#mes_stop');
     const composer = document.querySelector('#form_sheld');
+    const input = document.querySelector('#send_form');
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
     const upload = document.querySelector('#gptweb-pet-upload');
     const skinSelect = document.querySelector('#gptweb-pet-skin');
@@ -37,6 +40,53 @@ export function mountPet(settings, options, saveSettings) {
     let animation;
     let state;
     let interaction = null;
+    let walkTimer;
+    let travel;
+    let walkState;
+    let position;
+    let pointerOver = false;
+
+    function stopWalking() {
+        clearTimeout(walkTimer);
+        walkTimer = undefined;
+        if (travel) {
+            position = parseFloat(getComputedStyle(button).left);
+            button.style.left = `${position}px`;
+            travel.cancel();
+            travel = undefined;
+        }
+    }
+
+    function place() {
+        const bounds = input.getBoundingClientRect();
+        const left = Math.max(bounds.left, visualViewport.offsetLeft) + 8;
+        const right = Math.max(left, Math.min(bounds.right, visualViewport.offsetLeft + visualViewport.width) - button.offsetWidth - 8);
+        position = position === undefined ? right : Math.min(right, Math.max(left, position));
+        button.style.left = `${position}px`;
+        button.style.right = 'auto';
+        return { left, right };
+    }
+
+    function walk() {
+        walkTimer = undefined;
+        const { left, right } = place();
+        if (right - left < 24) { refresh(); return; }
+        const target = position > (left + right) / 2
+            ? left + Math.random() * (right - left) * .3
+            : right - Math.random() * (right - left) * .3;
+        walkState = target < position ? 'walkingLeft' : 'walkingRight';
+        travel = button.animate([{ left: `${position}px` }, { left: `${target}px` }], {
+            duration: Math.abs(target - position) / 36 * 1000, easing: 'linear', fill: 'forwards',
+        });
+        travel.onfinish = () => {
+            position = target;
+            button.style.left = `${position}px`;
+            travel.cancel();
+            travel = undefined;
+            refresh();
+        };
+        refresh();
+    }
 
     function refresh() {
         const enabled = settings.enabled && settings.petEnabled;
@@ -45,12 +95,20 @@ export function mountPet(settings, options, saveSettings) {
             loadSkin();
             button.hidden = true;
         }
-        if (button.hidden || document.hidden) {
+        if (button.hidden || document.hidden || getComputedStyle(button).visibility === 'hidden'
+            || (matchMedia('(max-width: 700px)').matches && document.documentElement.dataset.gptwebMobile === 'open')) {
+            stopWalking();
             animation?.cancel();
             state = undefined;
+            interaction = null;
             return;
         }
-        const nextState = interaction || (getComputedStyle(stopButton).display === 'none' ? 'idle' : 'waiting');
+        const generating = getComputedStyle(stopButton).display !== 'none';
+        const canWalk = !generating && !interaction && !pointerOver && !button.matches(':focus-visible') && !reducedMotion.matches;
+        if (!canWalk) stopWalking();
+        if (!travel) place();
+        if (canWalk && !travel && walkTimer === undefined) walkTimer = setTimeout(walk, 4000 + Math.random() * 5000);
+        const nextState = interaction || (generating ? 'waiting' : travel ? walkState : 'idle');
         if (nextState === state) return;
         animation?.cancel();
         state = nextState;
@@ -167,10 +225,14 @@ export function mountPet(settings, options, saveSettings) {
     }, options);
     button.addEventListener('pointerenter', event => {
         if (event.pointerType === 'mouse' && !reducedMotion.matches) {
+            pointerOver = true;
             interaction = 'jumping';
             refresh();
         }
     }, options);
+    button.addEventListener('pointerleave', () => { pointerOver = false; refresh(); }, options);
+    button.addEventListener('focus', refresh, options);
+    button.addEventListener('blur', refresh, options);
     button.addEventListener('click', () => {
         if (!reducedMotion.matches) {
             interaction = 'waving';
@@ -183,14 +245,20 @@ export function mountPet(settings, options, saveSettings) {
     generationObserver.observe(stopButton, { attributes: true, attributeFilter: ['style'] });
     const composerObserver = new ResizeObserver(() => {
         document.documentElement.style.setProperty('--gptweb-composer-height', `${composer.getBoundingClientRect().height}px`);
+        stopWalking();
+        refresh();
     });
     composerObserver.observe(composer);
+    composerObserver.observe(input);
+    visualViewport.addEventListener('resize', () => { stopWalking(); refresh(); }, options);
+    visualViewport.addEventListener('scroll', () => { stopWalking(); refresh(); }, options);
 
     return {
         refresh,
         dispose() {
             if (image) { image.onload = null; image.onerror = null; }
             if (customUrl) URL.revokeObjectURL(customUrl);
+            stopWalking();
             animation?.cancel();
             generationObserver.disconnect();
             composerObserver.disconnect();

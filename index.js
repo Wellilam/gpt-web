@@ -58,6 +58,15 @@ let recentHistory;
 let mounted = false;
 let subscriptions = [];
 const systemTheme = matchMedia('(prefers-color-scheme: dark)');
+const greetings = [
+    ['{name}，今天想从哪里开始？', '早呀，{name}。今天有什么打算？', '新的一天，想聊些什么，{name}？', '{name}，要开启一段新的故事吗？'],
+    ['{name}，午间休息，聊一会儿？', '中午好，{name}。有什么新鲜事？', '{name}，今天过得怎么样？', '忙了半天，来聊点轻松的吧，{name}。'],
+    ['{name}，下午想聊些什么？', '回来啦，{name}。接下来想做什么？', '{name}，有什么刚冒出来的点子？', '下午好，{name}。一起写段故事？'],
+    ['{name}，今天有什么想分享的？', '晚上好，{name}。终于有空聊聊了。', '忙完了吗，{name}？来坐一会儿。', '{name}，今晚想进入谁的故事？'],
+    ['还没睡呀，{name}。想聊点什么？', '夜深了，{name}。有什么挂在心上的？', '{name}，今晚的故事还要继续吗？', '这会儿很安静，{name}。慢慢说。'],
+];
+let greetingKey;
+let greetingTemplate;
 
 function icon(name) {
     return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
@@ -131,10 +140,15 @@ function resizeViewport() {
 
 function refreshProfile() {
     const current = SillyTavern.getContext();
-    const hour = new Date().getHours();
-    const greeting = hour < 5 || hour >= 23 ? '夜深了'
-        : hour < 11 ? '早上好' : hour < 14 ? '中午好' : hour < 18 ? '下午好' : '晚上好';
-    document.querySelector('#gptweb-greeting').textContent = `${greeting}，${current.name1}。`;
+    const now = new Date();
+    const hour = now.getHours();
+    const period = hour < 5 || hour >= 23 ? 4 : hour < 11 ? 0 : hour < 14 ? 1 : hour < 18 ? 2 : 3;
+    const key = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}-${period}`;
+    if (key !== greetingKey) {
+        greetingKey = key;
+        greetingTemplate = greetings[period][Math.floor(Math.random() * greetings[period].length)];
+    }
+    document.querySelector('#gptweb-greeting').textContent = greetingTemplate.replace('{name}', () => current.name1);
     document.querySelector('#gptweb-profile-name').textContent = current.name1;
     document.querySelector('#gptweb-profile-avatar').src = current.getThumbnailUrl('persona', user_avatar);
     const profileButton = document.querySelector('#gptweb-profile');
@@ -155,6 +169,7 @@ function refresh() {
 
     const panel = document.querySelector('#top-settings-holder > .drawer > .drawer-content.openDrawer');
     root.dataset.gptwebDrawer = String(Boolean(panel));
+    pet.refresh();
     document.querySelector('#gptweb-close-drawer').hidden = !panel;
     if (panel && panel.parentElement.id === focusDrawerId) {
         document.querySelector('#gptweb-close-drawer').focus();
