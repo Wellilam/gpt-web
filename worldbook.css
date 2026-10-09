@@ -1,0 +1,83 @@
+/* World Info keeps its original nodes, field events and conditional visibility. */
+html.gptweb #WorldInfo #wi-holder { margin: 0; min-width: 0; }
+html.gptweb #WorldInfo #wiTopBlock { gap: 24px; }
+html.gptweb #WorldInfo #world_popup { gap: 16px; min-width: 0; }
+html.gptweb #WorldInfo #world_popup > .flex-container { gap: 8px; align-items: center; }
+html.gptweb #WorldInfo #world_info_search { min-width: 140px; border-radius: 22px; padding-inline: 16px; }
+html.gptweb #WorldInfo #world_info_pagination { flex-basis: 100%; }
+html.gptweb #WorldInfo #world_info_pagination :is(.paginationjs, .paginationjs-pages ul) { display: flex; flex-wrap: wrap; gap: 4px; }
+html.gptweb #WorldInfo #world_popup_new { display: flex; align-items: center; gap: 8px; min-width: 100px; background: var(--gw-button); color: var(--gw-button-text); border-color: transparent; }
+html.gptweb #WorldInfo #world_popup_new::after { content: '新条目'; font: 500 13px var(--gw-font); }
+html.gptweb #WorldInfo #world_popup_entries_list { min-height: 0; padding-right: 4px; scrollbar-width: thin; }
+html.gptweb #WorldInfo #world_popup .world_entry { border: 1px solid var(--gw-line); border-radius: 16px; background: var(--gw-page); margin: 0 0 16px; }
+html.gptweb #WorldInfo #world_popup .world_entry > .wi-card-entry { padding: 0; border: 0; margin: 0; background: transparent; }
+html.gptweb #WorldInfo #world_popup .world_entry > form > .inline-drawer > .inline-drawer-header {
+    display: grid;
+    grid-template-columns: 32px 32px minmax(16px, 1fr) repeat(3, 36px);
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    border: 0;
+}
+/* Flatten only layout wrappers, preserving host event delegation and DOM ancestry. */
+html.gptweb #WorldInfo #world_popup .inline-drawer-header > .world_entry_thin_controls,
+html.gptweb #WorldInfo #world_popup .inline-drawer-header > .world_entry_thin_controls > .flex-container { display: contents; }
+html.gptweb #WorldInfo #world_popup .WIEntryTitleAndStatus { grid-column: 1 / -1; grid-row: 1; gap: 10px; min-width: 0; width: 100%; }
+html.gptweb #WorldInfo #world_popup .WIEntryTitleAndStatus > .flex-container { min-width: 0; }
+html.gptweb #WorldInfo #world_popup textarea[name="comment"] { height: auto !important; min-height: 44px; field-sizing: content; resize: vertical; margin: 0; padding: 10px 0; border: 0; border-radius: 0; background: transparent; font-weight: 600; font-size: 16px; line-height: 1.5; }
+html.gptweb #WorldInfo #world_popup select[name="entryStateSelector"] { width: 64px !important; min-width: 64px !important; max-width: 64px !important; height: 40px; padding-left: 10px; flex: none; }
+html.gptweb #WorldInfo #world_popup .WIEnteryHeaderControls { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: minmax(200px, 2fr) repeat(3, minmax(64px, 1fr)); gap: 12px; min-width: 0; width: 100%; padding-block: 8px 16px; border-bottom: 1px solid var(--gw-line); }
+html.gptweb #WorldInfo #world_popup .WIEnteryHeaderControls:not(:has(input[name="depth"]:enabled)) { grid-template-columns: minmax(200px, 2fr) repeat(2, minmax(64px, 1fr)); }
+html.gptweb #WorldInfo #world_popup .WIEnteryHeaderControls > .world_entry_form_control { min-width: 0; gap: 6px; }
+html.gptweb #WorldInfo #world_popup .WIEnteryHeaderControls > .world_entry_form_control:has(input[name="depth"]:disabled) { display: none; }
+html.gptweb #WorldInfo #world_popup .WIEntryHeaderTitleMobile { display: block; color: var(--gw-muted); font-size: 12px; font-weight: 500; }
+html.gptweb #WorldInfo #world_popup .WIEnteryHeaderControls :is(select, input) { width: 100% !important; min-width: 0 !important; max-width: 100% !important; min-height: 44px; }
+html.gptweb #WorldInfo #world_popup .world_entry_thin_controls > .inline-drawer-toggle { grid-column: 1; grid-row: 3; }
+html.gptweb #WorldInfo #world_popup .world_entry_thin_controls > .killSwitch { grid-column: 2; grid-row: 3; }
+html.gptweb #WorldInfo #world_popup .world_entry > form > .inline-drawer > .inline-drawer-header > .drag-handle { grid-column: 3; grid-row: 3; color: var(--gw-muted); font-size: 14px; }
+html.gptweb #WorldInfo #world_popup .world_entry .move_entry_button { grid-column: 4; grid-row: 3; }
+html.gptweb #WorldInfo #world_popup .world_entry .duplicate_entry_button { grid-column: 5; grid-row: 3; }
+html.gptweb #WorldInfo #world_popup .world_entry .delete_entry_button { grid-column: 6; grid-row: 3; }
+html.gptweb #WorldInfo #world_popup .world_entry_thin_controls > :is(.inline-drawer-toggle, .killSwitch),
+html.gptweb #WorldInfo #world_popup .world_entry > form > .inline-drawer > .inline-drawer-header > .menu_button { display: grid; place-items: center; min-width: 32px; width: 100%; min-height: 36px; height: 36px; padding: 0; margin: 0; border: 0; border-radius: 8px; font-size: 16px; background: transparent; }
+html.gptweb #WorldInfo #world_popup .world_entry_thin_controls > :is(.inline-drawer-toggle, .killSwitch):hover,
+html.gptweb #WorldInfo #world_popup .world_entry > form > .inline-drawer > .inline-drawer-header > .menu_button:hover { background: var(--gw-hover); }
+html.gptweb #WorldInfo #world_popup .world_entry > form > .inline-drawer > .inline-drawer-outlet { padding: 20px 16px; border-top: 1px solid var(--gw-line); }
+html.gptweb #WorldInfo #world_popup .world_entry_edit > .flex-container { gap: 18px; margin-bottom: 20px; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit .world_entry_form_control { min-width: 0; gap: 6px; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit :is(small, label) { text-align: left; white-space: normal; overflow-wrap: anywhere; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit label.checkbox { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 8px; padding-block: 4px; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit [name="keywordsAndLogicBlock"] { display: grid; grid-template-columns: minmax(0, 1fr) 140px minmax(0, 1fr); align-items: start; gap: 16px; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit [name="perEntryOverridesBlock"] { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; align-items: start; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit select:not([multiple]) { width: 100% !important; min-width: 0 !important; max-width: 100% !important; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit .WIEntryContentAndMemo { min-width: 0; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit textarea[name="content"] { min-height: 220px; line-height: 1.7; padding: 14px; border-radius: 12px; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit > .flexGap10 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit > .flexGap10 > div { min-width: 0; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit > .flexGap10 > :has(input[name="group"]) { grid-column: 1 / -1; }
+html.gptweb #WorldInfo #world_popup .world_entry_edit .switch_input_type_icon { width: 28px; min-width: 28px; min-height: 28px; padding: 2px; margin: 20px 2px 0 0; }
+html.gptweb #WorldInfo #world_popup .select2-container { width: 100% !important; }
+html.gptweb #WorldInfo #world_popup .select2-selection__rendered { white-space: normal; overflow-wrap: anywhere; text-overflow: clip; line-height: 1.5; }
+html.gptweb #WorldInfo #world_popup .select2-selection__choice { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+@media (max-width: 700px) {
+    html.gptweb #WorldInfo #wiTopBlock { flex-direction: column; gap: 8px; }
+    html.gptweb #WorldInfo #wiTopBlock > div { width: 100%; min-width: 0; }
+    html.gptweb #WorldInfo #wiActivationSettings { flex-direction: column; }
+    html.gptweb #WorldInfo #wiSliders { width: 100%; min-width: 0; }
+    html.gptweb #WorldInfo #world_popup > .flex-container > :is(#world_info_search, #world_info_sort_order) { flex-basis: 100%; min-width: 0; width: 100%; }
+    html.gptweb #WorldInfo #world_popup_entries_list { padding-right: 0; scrollbar-width: none; }
+    html.gptweb #WorldInfo #world_popup .world_entry > form > .inline-drawer > .inline-drawer-header { padding: 12px; gap: 4px; }
+    html.gptweb #WorldInfo #world_popup .WIEnteryHeaderControls,
+    html.gptweb #WorldInfo #world_popup .WIEnteryHeaderControls:not(:has(input[name="depth"]:enabled)) { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    html.gptweb #WorldInfo #world_popup .WIEnteryHeaderControls:not(:has(input[name="depth"]:enabled)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    html.gptweb #WorldInfo #world_popup .WIEnteryHeaderControls > [name="PositionBlock"] { grid-column: 1 / -1; }
+    html.gptweb #WorldInfo #world_popup .world_entry > form > .inline-drawer > .inline-drawer-outlet { padding: 16px 12px; }
+    html.gptweb #WorldInfo #world_popup .world_entry_edit [name="keywordsAndLogicBlock"],
+    html.gptweb #WorldInfo #world_popup .world_entry_edit [name="perEntryOverridesBlock"],
+    html.gptweb #WorldInfo #world_popup .world_entry_edit > .flexGap10 { grid-template-columns: minmax(0, 1fr); }
+    html.gptweb #WorldInfo #world_popup .world_entry_edit .WIEntryContentAndMemo { flex-wrap: wrap !important; }
+    html.gptweb #WorldInfo #world_popup .world_entry_edit .world_entry_form_control label > small { flex-wrap: wrap; gap: 10px; }
+    html.gptweb #WorldInfo #world_popup [name="contentAndCharFilterBlock"] label > small > .flex-container { flex-wrap: wrap !important; gap: 10px; }
+    html.gptweb #WorldInfo #world_popup [name="contentAndCharFilterBlock"] label > small > .flex-container > div { flex-basis: 100%; }
+    html.gptweb #WorldInfo #world_popup .world_entry_edit .inline-drawer-content > small { flex-basis: 100%; }
+}

@@ -1,5 +1,6 @@
 @import url('./panels.css');
 @import url('./chat.css');
+@import url('./worldbook.css');
 /* Styles are gated by .gptweb. Card HTML descendants and iframe documents are untouched. */
 html.gptweb {
     height: 100%;
