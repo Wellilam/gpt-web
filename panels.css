@@ -154,6 +154,37 @@ html.gptweb #extensions_settings .inline-drawer-header,
 html.gptweb #extensions_settings2 .inline-drawer-header { background: none; border: 0; border-bottom: 1px solid var(--gw-line); border-radius: 0; padding: 16px 4px; }
 html.gptweb #rm_extensions_block .extensions_block { gap: 16px; }
 
+/* Character filters and pagination keep the native three-state and paging behavior. */
+html.gptweb #right-nav-panel .rm_tag_filter .tag.actionable { aspect-ratio: auto; min-height: 44px; padding: 10px 12px; gap: 8px; border: 1px solid var(--gw-line); border-radius: 22px; background: var(--gw-surface) !important; color: var(--gw-text) !important; opacity: 1; filter: none !important; }
+html.gptweb #right-nav-panel .rm_tag_filter .tag.actionable::after { content: var(--gptweb-filter-label); position: static; height: auto; font: 500 13px/1.4 var(--gw-font); color: inherit; text-shadow: none; }
+html.gptweb #right-nav-panel .filterByFavorites { --gptweb-filter-label: '收藏'; }
+html.gptweb #right-nav-panel .filterByGroups { --gptweb-filter-label: '群聊'; }
+html.gptweb #right-nav-panel .filterByFolder { --gptweb-filter-label: '文件夹'; }
+html.gptweb #right-nav-panel .manageTags { --gptweb-filter-label: '管理标签'; }
+html.gptweb #right-nav-panel .showTagList { --gptweb-filter-label: '标签列表'; }
+html.gptweb #right-nav-panel .clearAllFilters { --gptweb-filter-label: '清除筛选'; }
+html.gptweb #right-nav-panel .rm_tag_filter .tag.actionable.selected { background: var(--gw-button) !important; color: var(--gw-button-text) !important; border-color: transparent; }
+html.gptweb #right-nav-panel .rm_tag_filter .tag.actionable.excluded { border-style: dashed; border-color: var(--gw-muted); }
+html.gptweb #right-nav-panel .rm_tag_filter .tag.actionable.excluded::after { content: '排除 · ' var(--gptweb-filter-label); }
+html.gptweb #right-nav-panel #rm_print_characters_pagination { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 12px; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs-nav { font: 400 13px/1.4 var(--gw-font); color: var(--gw-muted); padding: 0; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs-size-changer { grid-column: 2; grid-row: 1; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs-size-changer select { min-height: 44px; border-radius: 12px; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs-pages { grid-row: 2; grid-column: 1 / -1; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs-pages ul { justify-content: flex-start; gap: 8px; margin: 0; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs-pages li { flex: 1; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs-pages a { display: flex; justify-content: center; align-items: center; min-height: 44px; min-width: 44px; padding: 0; border-radius: 12px; background: transparent; color: var(--gw-text); border-color: var(--gw-line); opacity: 1; text-shadow: none; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs-pages .disabled a { opacity: .3; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination .paginationjs-pages li:not(.disabled) a:hover { background: var(--gw-hover); }
+html.gptweb #right-nav-panel #rm_print_characters_pagination :is(#charListGridToggle, #bulkEditButton) { min-height: 44px; flex: 1; display: flex; justify-content: center; align-items: center; gap: 8px; padding: 10px; margin: 0; border-radius: 12px; }
+html.gptweb #right-nav-panel #rm_print_characters_pagination :is(#charListGridToggle, #bulkEditButton)::after { font: 500 13px/1.4 var(--gw-font); }
+html.gptweb #right-nav-panel #charListGridToggle::after { content: '网格视图'; }
+html.gptweb body.charListGrid #right-nav-panel #charListGridToggle::after { content: '列表视图'; }
+html.gptweb #right-nav-panel #bulkEditButton::after { content: '批量管理'; }
+html.gptweb #right-nav-panel #bulkEditButton.bulk_edit_overlay_active { background: var(--gw-button); color: var(--gw-button-text); }
+html.gptweb #right-nav-panel #bulkEditButton.bulk_edit_overlay_active::after { content: '完成管理'; }
+
 /* Preset and prompt controls retain native rendering and model-specific visibility. */
 html.gptweb #left-nav-panel .scrollableInner { padding: 4px 12px; }
 html.gptweb #ai_response_configuration { flex-direction: column; gap: 24px; max-width: 720px; margin-inline: auto; }
@@ -213,6 +244,68 @@ html.gptweb :is(body > .select2-container, body > dialog.popup .select2-containe
 }
 
 @media (max-width: 700px) {
+    /* Mobile management uses a search-first list and a separate secondary tools disclosure. */
+    html.gptweb #top-settings-holder > .drawer > .drawer-content :where(p, span, small, label, h2, h3, h4, b, strong, .ch_description, .ch_name):not([class*="fa-"]) { font-family: var(--gw-font); text-shadow: none; }
+    html.gptweb #top-settings-holder > .drawer > .drawer-content :is(input[type=text], input[type=search], textarea, select):not(.select2-search__field) { font-size: 16px; min-height: 44px; }
+    html.gptweb #right-nav-panel { gap: 0; }
+    html.gptweb #right-nav-panel .gptweb-panel-heading { margin: 0 0 20px; font-size: 24px; }
+    html.gptweb #right-nav-panel:has(#rm_characters_block[style*="display: none"]) > .gptweb-panel-heading { display: none; }
+    html.gptweb #right-nav-panel > .scrollableInner { min-height: 0; height: auto; max-height: none; flex: 1; overflow-y: auto; }
+    html.gptweb #right-nav-panel :is(#rm_characters_block, #rm_ch_create_block, #form_create, #rm_print_characters_block) { height: auto; overflow: visible; }
+    html.gptweb #right-nav-panel #charListFixedTop { display: flex; flex-direction: column; gap: 12px; padding: 0; }
+    html.gptweb #right-nav-panel #form_character_search_form { display: flex !important; position: relative; }
+    html.gptweb #right-nav-panel .gptweb-search-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    html.gptweb #right-nav-panel #character_search_bar { height: 48px; padding: 12px 16px; margin: 0; border: 0; border-radius: 24px; }
+    html.gptweb #right-nav-panel #rm_button_search { display: none; }
+    html.gptweb #right-nav-panel .gptweb-character-actions { display: flex; gap: 10px; }
+    html.gptweb #right-nav-panel #charListFixedTop .gptweb-character-actions > .menu_button { flex: 1; height: 44px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 22px; }
+    html.gptweb #right-nav-panel #rm_button_create { background: var(--gw-button); color: var(--gw-button-text); border-color: transparent; }
+    html.gptweb #right-nav-panel .gptweb-control-label { font: 500 13px/1.4 var(--gw-font); }
+    html.gptweb #gptweb-character-tools { border-bottom: 1px solid var(--gw-line); padding-bottom: 8px; }
+    html.gptweb #gptweb-character-tools > summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; cursor: pointer; font-size: 13px; color: var(--gw-muted); list-style: none; }
+    html.gptweb #gptweb-character-tools > summary::-webkit-details-marker { display: none; }
+    html.gptweb #gptweb-character-tools > summary::after { content: '+'; font-size: 20px; }
+    html.gptweb #gptweb-character-tools[open] > summary::after { content: '−'; }
+    html.gptweb #gptweb-character-tools #rm_button_bar { gap: 8px; padding-block: 8px; }
+    html.gptweb #gptweb-character-tools #rm_button_bar .menu_button { width: auto; aspect-ratio: auto; min-height: 44px; display: flex; align-items: center; gap: 8px; margin: 0; }
+    html.gptweb #gptweb-character-tools #character_sort_order { flex: 1 0 100%; height: 44px; }
+    html.gptweb #gptweb-character-tools .rm_tag_filter { gap: 6px; margin-block: 10px; }
+    html.gptweb #gptweb-character-tools .tag { min-height: 34px; min-width: 34px; padding: 8px; border-radius: 8px; }
+    html.gptweb #gptweb-character-tools #rm_print_characters_pagination { flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    html.gptweb #gptweb-character-tools .paginationjs { flex-wrap: wrap; gap: 6px; }
+    html.gptweb #right-nav-panel #rm_print_characters_block { padding: 8px 0; gap: 0; }
+    html.gptweb body:not(.charListGrid) #right-nav-panel #rm_print_characters_block .entity_block { padding: 16px 0; margin: 0; gap: 14px; border-radius: 0; border-bottom: 1px solid var(--gw-line); align-items: center; }
+    html.gptweb #right-nav-panel .entity_block :is(.character_select_container, .group_select_container) { min-width: 0; }
+    html.gptweb #right-nav-panel .entity_block .ch_name { font-size: 16px; line-height: 1.5; color: var(--gw-text); }
+    html.gptweb #right-nav-panel .entity_block .ch_description { font-size: 13px; color: var(--gw-muted); margin-top: 4px; }
+    html.gptweb #right-nav-panel .entity_block .character_version { font-size: 11px; color: var(--gw-muted); }
+    html.gptweb #right-nav-panel .avatar, html.gptweb #right-nav-panel .avatar img { box-shadow: none; border-radius: 16px; }
+    html.gptweb #right-nav-panel .tags_inline .tag { background: var(--gw-surface) !important; color: var(--gw-muted) !important; border-color: var(--gw-line); font-size: 11px; }
+    html.gptweb body.charListGrid #right-nav-panel #rm_print_characters_block { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    html.gptweb body.charListGrid #right-nav-panel #rm_print_characters_block .entity_block { width: 100%; max-width: none; padding: 16px 8px; margin: 0; align-items: center; border: 1px solid var(--gw-line); border-radius: 16px; }
+    html.gptweb body.charListGrid #right-nav-panel .entity_block :is(.character_select_container, .group_select_container, .ch_name) { max-width: none; }
+    html.gptweb #right-nav-panel #HotSwapWrapper { display: none; }
+    html.gptweb #right-nav-panel:not(:has(#rm_characters_block[style*="display: none"])) #CharListButtonAndHotSwaps { display: none; }
+    html.gptweb #right-nav-panel #rm_button_characters { display: flex; align-items: center; gap: 10px; font-size: 16px; min-height: 44px; padding: 0; margin: 0 0 12px; }
+    html.gptweb #right-nav-panel #rm_button_characters::before { content: '\f053'; }
+    html.gptweb #right-nav-panel #right-nav-panel-tabs { padding: 0; gap: 10px; margin-bottom: 12px; }
+    html.gptweb #right-nav-panel #rm_button_selected_ch h2 { font: 600 22px/1.4 var(--gw-font); text-align: left; color: var(--gw-text); }
+    html.gptweb #right-nav-panel #result_info { font-size: 12px; color: var(--gw-muted); }
+    html.gptweb #right-nav-panel #avatar_div { flex-direction: column; align-items: stretch; gap: 16px; }
+    html.gptweb #right-nav-panel #avatar_div_div { width: 72px; height: 72px; margin: 0; align-self: flex-start !important; }
+    html.gptweb #right-nav-panel #avatar_load_preview { width: 72px; height: 72px; object-fit: cover; }
+    html.gptweb #right-nav-panel #avatar_controls { padding: 0; height: auto; gap: 12px; }
+    html.gptweb #right-nav-panel .form_create_bottom_buttons_block { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; }
+    html.gptweb #right-nav-panel #avatar_controls .form_create_bottom_buttons_block .menu_button { flex: 1 0 28%; min-height: 44px; margin: 0; padding: 10px 6px; gap: 6px; }
+    html.gptweb #right-nav-panel #delete_button { background: transparent !important; color: #c74646; border-color: var(--gw-line); }
+    html.gptweb #right-nav-panel #tagList .tag { background: var(--gw-surface) !important; color: var(--gw-muted) !important; border-color: var(--gw-line); }
+    html.gptweb #right-nav-panel #spoiler_free_desc { margin-top: 16px; }
+    html.gptweb #right-nav-panel #char-management-dropdown { width: 100%; height: 44px; margin: 0; }
+    html.gptweb #right-nav-panel #tags_div { margin-block: 16px; }
+    html.gptweb #right-nav-panel :is(#description_div, #first_message_div) { flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+    html.gptweb #right-nav-panel :is(#description_textarea, #firstmessage_textarea) { min-height: 180px; line-height: 1.65; }
+    html.gptweb #right-nav-panel :is(#descriptionWrapper, #firstMessageWrapper) { margin-top: 20px; }
+    html.gptweb #right-nav-panel :is(#rm_group_buttons, #GroupFavDelOkBack) { flex-wrap: wrap; gap: 8px; }
     html.gptweb #rm_extensions_block .extensions_block > .flex-container:first-child > h3 { flex-basis: 100%; }
     html.gptweb #PersonaManagement > .flex-container:first-child > .flex-container:first-child { flex-direction: column; align-items: stretch; gap: 12px; }
     html.gptweb #WorldInfo #world_editor_select { flex-basis: 100%; width: 100%; }

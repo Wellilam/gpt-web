@@ -376,7 +376,7 @@ html.gptweb #gptweb-welcome button:hover { background: var(--gw-sidebar); }
 @media (max-width: 1000px) and (min-width: 701px) { html.gptweb { --gw-rail: 220px; } html.gptweb[data-gptweb-collapsed="true"] { --gw-rail: 64px; } }
 @media (max-width: 700px) {
     html.gptweb #gptweb-pet:not([hidden]) { --gw-pet-width: 64px; --gw-pet-height: calc(64px * 208 / 192); right: 12px; }
-    html.gptweb { --gw-rail: 0px; --gw-header: 56px; --gw-drawer-gap: 8px; }
+    html.gptweb { --gw-rail: 0px; --gw-header: 56px; --gw-drawer-gap: 0px; }
     html.gptweb[data-gptweb-collapsed="true"] { --gw-rail: 0px; }
     html.gptweb #gptweb-topbar { padding: 0 14px; gap: 10px; }
     #gptweb-status { display: none; }
@@ -391,7 +391,7 @@ html.gptweb #gptweb-welcome button:hover { background: var(--gw-sidebar); }
     html.gptweb[data-gptweb-collapsed="true"] #gptweb-characters { display: block; }
     html.gptweb[data-gptweb-collapsed="true"] .gptweb-profile-row { flex-direction: row; }
     html.gptweb #gptweb-profile .gptweb-profile-copy { display: flex; }
-    html.gptweb #top-settings-holder > .drawer > .drawer-content { left: 8px !important; right: 8px !important; padding: 14px; border-radius: 12px; }
+    html.gptweb #top-settings-holder > .drawer > .drawer-content { left: 0 !important; right: 0 !important; padding: 20px; border: 0; border-radius: 0; box-shadow: none; }
     html.gptweb #chat { padding: 6px 18px 26px; }
     html.gptweb #chat > .mes { padding: 18px 0; }
     html.gptweb #chat > .mes[is_user="true"] { max-width: 94%; padding: 12px 16px; }

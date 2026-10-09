@@ -3,6 +3,7 @@
 import { user_avatar } from '/scripts/personas.js';
 import { mountPet, petSkins } from './pet.js';
 import { createHistory } from './history.js';
+import { mountCharacterPanel } from './character-panel.js';
 
 const root = document.documentElement;
 const storageKey = 'gpt-web:settings';
@@ -200,6 +201,7 @@ function mount() {
     controller = new AbortController();
     recentHistory = createHistory();
     const options = { signal: controller.signal };
+    mountCharacterPanel(controller.signal);
     root.dataset.gptwebMobile = 'closed';
 
     for (const [id, title] of [['left-nav-panel', '预设与生成参数'], ['right-nav-panel', '角色与群聊']]) {
