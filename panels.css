@@ -1,4 +1,74 @@
 /* Native controls keep their IDs, events and visibility. Scope excludes chat/card content. */
+/* Allow long plugin/script names and translated labels to occupy their full height. */
+html.gptweb :is(#top-settings-holder > .drawer > .drawer-content, body > dialog.popup) :is(label, .checkbox_label, .checkbox, .menu_button_icon) { min-width: 0; max-width: 100%; }
+html.gptweb :is(#top-settings-holder > .drawer > .drawer-content, body > dialog.popup) :is(label, .checkbox_label, .checkbox, .menu_button_icon) > :is(span, small) { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+html.gptweb #right-nav-panel :is(.character_name_block, .avatar-container) { min-width: 0; flex-wrap: wrap; }
+html.gptweb #right-nav-panel :is(.character_name_block .ch_name, .avatar-container .ch_name, .ch_description, .character_version, #rm_button_selected_ch h2),
+html.gptweb #regex_container .regex_script_name {
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    text-wrap: wrap;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+    height: auto;
+}
+html.gptweb #right-nav-panel .character_name_block > :last-child { flex-shrink: 1; }
+html.gptweb #regex_container .regex-script-label { align-items: flex-start; }
+@media (max-width: 700px) {
+    html.gptweb #regex_container .regex-script-label { flex-wrap: wrap; }
+    html.gptweb #regex_container .regex-script-label > .regex_script_name { flex-basis: calc(100% - 40px); }
+    html.gptweb #regex_container .regex-script-label > .flex-container { flex-wrap: wrap; max-width: 100%; }
+    html.gptweb .regex_editor > .flex-container:has(> .wi-enter-footer-text) { flex-direction: column; }
+    html.gptweb .regex_editor > .flex-container > .wi-enter-footer-text { width: 100%; min-width: 0; flex: auto; }
+    html.gptweb .regex_editor .checkbox { align-items: flex-start; }
+}
+html.gptweb :is(#options, #extensionsMenu) {
+    background: var(--gw-page);
+    color: var(--gw-text);
+    border: 1px solid var(--gw-line);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px #00000024;
+    backdrop-filter: none;
+    text-shadow: none;
+    padding: 6px;
+    width: 250px;
+    max-width: calc(100vw - 24px);
+    font: 14px/1.5 var(--gw-font);
+}
+html.gptweb #options > .options-content { padding: 0; border: 0; border-radius: 10px; font: inherit; }
+html.gptweb :is(#extensionsMenu, #options > .options-content) { max-height: min(560px, calc(var(--gptweb-height, 100dvh) - var(--gptweb-composer-height, 112px) - 80px)); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--gw-line) transparent; }
+html.gptweb #options > .options-content > a,
+html.gptweb #extensionsMenu > .extension_container > div,
+html.gptweb #extensionsMenu > div:not(.extension_container) {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    min-height: 40px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 10px;
+    gap: 12px;
+    align-items: center;
+    background: transparent;
+    color: var(--gw-text);
+    font: inherit;
+    text-shadow: none;
+    filter: none;
+    opacity: 1;
+}
+html.gptweb :is(#options, #extensionsMenu) :is(a, .extension_container > div, div:not(.extension_container)) > span:not([class*="fa-"]) { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+html.gptweb #options > .options-content > a:is(:hover, :focus-visible),
+html.gptweb #extensionsMenu > .extension_container > div:is(:hover, :focus-visible),
+html.gptweb #extensionsMenu > div:not(.extension_container):is(:hover, :focus-visible) { background: var(--gw-hover); }
+html.gptweb :is(#options, #extensionsMenu) :is(i, .extensionsMenuExtensionButton) { font-size: 16px; width: 20px; flex-shrink: 0; color: var(--gw-muted); }
+html.gptweb #options > .options-content > hr { margin: 5px 8px; border: 0; height: 1px; background: var(--gw-line); }
+@media (max-width: 700px) {
+    html.gptweb #options > .options-content > a,
+    html.gptweb #extensionsMenu > .extension_container > div,
+    html.gptweb #extensionsMenu > div:not(.extension_container) { min-height: 44px; }
+}
 html.gptweb :is(
     #top-settings-holder > .drawer > .drawer-content,
     body > dialog.popup,
@@ -85,7 +155,9 @@ html.gptweb :is(
         text-shadow: none;
         filter: none;
         transition: background-color .15s;
-        white-space: nowrap;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        max-width: 100%;
     }
     & .menu_button:not([class*="fa-"]) { font-family: var(--gw-font); font-size: 13px; }
     & :is(.menu_button, button, input[type=button], input[type=submit]):hover { background: var(--gw-hover); filter: none; }
@@ -258,7 +330,7 @@ html.gptweb :is(body > .select2-container, body > dialog.popup .select2-containe
     html.gptweb #right-nav-panel #character_search_bar { height: 48px; padding: 12px 16px; margin: 0; border: 0; border-radius: 24px; }
     html.gptweb #right-nav-panel #rm_button_search { display: none; }
     html.gptweb #right-nav-panel .gptweb-character-actions { display: flex; gap: 10px; }
-    html.gptweb #right-nav-panel #charListFixedTop .gptweb-character-actions > .menu_button { flex: 1; height: 44px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 22px; }
+    html.gptweb #right-nav-panel #charListFixedTop .gptweb-character-actions > .menu_button { flex: 1; min-height: 44px; height: auto; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 22px; }
     html.gptweb #right-nav-panel #rm_button_create { background: var(--gw-button); color: var(--gw-button-text); border-color: transparent; }
     html.gptweb #right-nav-panel .gptweb-control-label { font: 500 13px/1.4 var(--gw-font); }
     html.gptweb #gptweb-character-tools { border-bottom: 1px solid var(--gw-line); padding-bottom: 8px; }

@@ -1,0 +1,85 @@
+/* Message shell only: keep card-owned HTML, iframe documents and host actions intact. */
+html.gptweb #chat > .mes {
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    padding: 24px 0 28px;
+    margin: 0;
+    background: transparent;
+    color: var(--gw-text);
+    gap: 12px;
+}
+html.gptweb #chat > .mes > .mes_block {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 0;
+    overflow: visible;
+}
+html.gptweb #chat > .mes > .mes_block > .ch_name { display: contents; color: var(--gw-muted); text-shadow: none; }
+html.gptweb #chat > .mes > .mes_block > .ch_name > .flex1 { order: -1; flex: none; font: 600 13px var(--gw-font); margin-bottom: 10px; }
+html.gptweb #chat > .mes > .mes_block > .ch_name .name_text { font: inherit; color: var(--gw-muted); white-space: normal; overflow-wrap: anywhere; }
+html.gptweb #chat > .mes > .mes_block > .mes_text {
+    color: var(--gw-text);
+    font-family: var(--gw-font);
+    font-size: calc(16px * var(--fontScale, 1));
+    font-weight: 400;
+    line-height: 1.8;
+    padding: 0;
+}
+html.gptweb #chat > .mes > .mes_block > .ch_name > :is(.mes_buttons, .mes_edit_buttons) {
+    order: 10;
+    align-self: flex-start;
+    max-width: calc(100% - 112px);
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px;
+    margin-top: 12px;
+    padding: 0;
+    overflow: visible;
+    filter: none;
+}
+html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_buttons > .extraMesButtons { flex-wrap: wrap; justify-content: flex-start; gap: 4px; padding: 0; }
+html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button) {
+    color: var(--gw-muted);
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 0;
+    min-width: 32px;
+    height: 32px;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    opacity: 1;
+    text-shadow: none;
+    box-shadow: none;
+    filter: none;
+}
+html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button):hover { background: var(--gw-hover); color: var(--gw-text); }
+html.gptweb #chat > .mes > .swipe_left,
+html.gptweb #chat > .mes > .swipeRightBlock :is(.swipe_right, .swipes-counter) { color: var(--gw-muted); opacity: 1; text-shadow: none; filter: none; }
+html.gptweb #chat > .mes > .swipe_left { left: auto; right: 76px; bottom: 28px; width: 32px; height: 32px; padding: 8px; font-size: 14px; }
+html.gptweb #chat > .mes > .swipeRightBlock { right: 0; bottom: 28px; height: 32px; flex-direction: row; align-items: center; gap: 0; }
+html.gptweb #chat > .mes > .swipeRightBlock > .swipes-counter { order: -1; height: 32px; margin: 0; padding: 8px 2px; font: 12px/16px var(--gw-font); min-width: 44px; }
+html.gptweb #chat > .mes > .swipeRightBlock > .swipe_right { width: 32px; height: 32px; font-size: 14px; }
+html.gptweb #chat > .mes > .swipe_left:hover,
+html.gptweb #chat > .mes > .swipeRightBlock > .swipe_right:hover { border-radius: 8px; background: var(--gw-hover); }
+html.gptweb #chat > .mes[is_user="true"] { width: fit-content; max-width: 85%; align-self: flex-end; padding-block: 16px; }
+html.gptweb #chat > .mes[is_user="true"] > .mes_block > .mes_text { background: var(--gw-surface); border-radius: 24px; padding: 12px 20px; }
+html.gptweb #chat > .mes[is_user="true"] > .mes_block > .ch_name > :is(.mes_buttons, .mes_edit_buttons) { align-self: flex-end; max-width: 100%; }
+html.gptweb #chat > .mes > .mesAvatarWrapper > .avatar { width: 28px; height: 28px; }
+html.gptweb #chat > .mes > .mesAvatarWrapper > .avatar > img { width: 28px; height: 28px; border: 0; box-shadow: none; border-radius: 50%; }
+/* Host swipe completion waits on the avatar's CSS animation, even when its content is hidden. */
+html.gptweb:not([data-gptweb-message-details="true"]) #chat > .mes > .mesAvatarWrapper { position: absolute; width: 0; height: 0; overflow: hidden; visibility: hidden; pointer-events: none; }
+html.gptweb:not([data-gptweb-message-details="true"]) #chat > .mes > .mes_block > .ch_name .timestamp,
+html.gptweb:not([data-gptweb-message-details="true"]) #chat > .mes[is_user="true"] > .mes_block > .ch_name .name_text { display: none; }
+html.gptweb #chat > .mes > .mes_block > .mes_text > .edit_textarea { background: var(--gw-surface); color: var(--gw-text); border: 1px solid var(--gw-line); border-radius: 14px; padding: 14px; font: 16px/1.8 var(--gw-font); }
+html.gptweb #chat > .mes > .mes_block > .mes_reasoning_details { color: var(--gw-muted); border: 0; background: transparent; font-family: var(--gw-font); }
+html.gptweb #send_form :is(#options_button, #extensionsMenuButton, #mes_stop, #mes_continue, #mes_impersonate) { opacity: 1; text-shadow: none; filter: none; border-radius: 50%; }
+html.gptweb #send_form :is(#options_button, #extensionsMenuButton):hover { background: var(--gw-hover); color: var(--gw-text); }
+html.gptweb #extensionsMenuButton::before { content: '\f067'; }
+@media (max-width: 700px) {
+    html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button) { min-width: 40px; height: 40px; padding: 12px; }
+}

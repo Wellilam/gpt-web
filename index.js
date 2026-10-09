@@ -4,10 +4,11 @@ import { user_avatar } from '/scripts/personas.js';
 import { mountPet, petSkins } from './pet.js';
 import { createHistory } from './history.js';
 import { mountCharacterPanel } from './character-panel.js';
+import { mountPluginNavigation } from './navigation.js';
 
 const root = document.documentElement;
 const storageKey = 'gpt-web:settings';
-const settings = Object.assign({ enabled: true, theme: 'system', collapsed: false, petEnabled: true, petSkin: 'codex' },
+const settings = Object.assign({ enabled: true, theme: 'system', collapsed: false, messageDetails: false, petEnabled: true, petSkin: 'codex' },
     JSON.parse(localStorage.getItem(storageKey) || '{}'));
 const escapeSetting = new URLSearchParams(location.search).get('gptweb');
 if (escapeSetting === 'off' || escapeSetting === 'on') {
@@ -50,8 +51,9 @@ const navigation = [
 let context;
 let controller;
 let observer;
+let headerObserver;
 let frame = 0;
-let focusDrawerId = null;
+let focusDrawer = null;
 let profileTimer;
 let pet;
 let recentHistory;
@@ -81,6 +83,8 @@ function applyAppearance() {
     root.classList.toggle('gptweb', settings.enabled);
     root.dataset.gptwebTheme = settings.theme === 'system' ? (systemTheme.matches ? 'dark' : 'light') : settings.theme;
     root.dataset.gptwebCollapsed = String(settings.collapsed);
+    root.dataset.gptwebMessageDetails = String(settings.messageDetails);
+    document.querySelector('#gptweb-message-details').checked = settings.messageDetails;
     document.querySelector('#gptweb-enabled').checked = settings.enabled;
     document.querySelector('#gptweb-theme').value = settings.theme;
     document.querySelector('#gptweb-pet-enabled').checked = settings.petEnabled;
@@ -107,9 +111,9 @@ function toggleSidebar() {
     }
 }
 
-function openDrawer(id) {
-    const toggle = document.querySelector(`#${id} > .drawer-toggle`);
-    focusDrawerId = toggle.parentElement.querySelector('.drawer-content').classList.contains('openDrawer') ? null : id;
+function openDrawer(target) {
+    const toggle = typeof target === 'string' ? document.getElementById(target).querySelector(':scope > .drawer-toggle') : target;
+    focusDrawer = toggle.parentElement.querySelector('.drawer-content').classList.contains('openDrawer') ? null : toggle.parentElement;
     toggle.click();
     closeMobile();
 }
@@ -119,7 +123,7 @@ function closeDrawers() {
     for (const panel of panels) {
         panel.parentElement.querySelector('.drawer-toggle').click();
     }
-    focusDrawerId = null;
+    focusDrawer = null;
     if (panels.length) document.querySelector('#gptweb-toggle').focus();
 }
 
@@ -171,9 +175,9 @@ function refresh() {
     root.dataset.gptwebDrawer = String(Boolean(panel));
     pet.refresh();
     document.querySelector('#gptweb-close-drawer').hidden = !panel;
-    if (panel && panel.parentElement.id === focusDrawerId) {
+    if (panel && panel.parentElement === focusDrawer) {
         document.querySelector('#gptweb-close-drawer').focus();
-        focusDrawerId = null;
+        focusDrawer = null;
     }
     for (const button of document.querySelectorAll('#gptweb-navigation [data-drawer]')) {
         button.setAttribute('aria-expanded', String(Boolean(panel && button.dataset.drawer === panel.parentElement.id)));
@@ -236,6 +240,7 @@ function mount() {
             <button type="button" id="gptweb-history" class="gptweb-row">${icon('history')}<span>对话记录</span></button>
             <div class="gptweb-section-label">酒馆</div>
             <nav id="gptweb-navigation">${navigation.map(([id, symbol, label]) => `<button type="button" class="gptweb-row" data-drawer="${id}" title="${label}" aria-expanded="false">${icon(symbol)}<span>${label}</span></button>`).join('')}</nav>
+            <section id="gptweb-plugin-section" hidden><div class="gptweb-section-label">插件</div><nav id="gptweb-plugin-navigation" aria-label="插件入口"></nav></section>
             <div class="gptweb-section-label">最近使用的角色</div>
             <div id="gptweb-characters"></div>
             <p id="gptweb-characters-empty">导入一张角色卡，开始你的故事。</p>
@@ -276,7 +281,9 @@ function mount() {
             <div class="inline-drawer-toggle inline-drawer-header"><b>GPT Web</b><div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div></div>
             <div class="inline-drawer-content">
                 <label class="checkbox_label"><input id="gptweb-enabled" type="checkbox"><span>启用 GPT Web 界面</span></label>
-                <label for="gptweb-theme">主题</label><select id="gptweb-theme" class="text_pole"><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select>
+                <label for="gptweb-theme">主题</label><select id="gptweb-theme" class="text_pole"><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option><option value="tavern">跟随酒馆主题</option></select>
+                <p>跟随酒馆主题会沿用主题配色、字体与背景，保留 GPT 布局。角色卡自己的 HTML 和 iframe 美化不改写。</p>
+                <label class="checkbox_label"><input id="gptweb-message-details" type="checkbox"><span>显示消息头像、时间和统计</span></label>
                 <label class="checkbox_label"><input id="gptweb-pet-enabled" type="checkbox"><span>显示 Codex 宠物</span></label>
                 <label for="gptweb-pet-skin">宠物皮肤</label>
                 <select id="gptweb-pet-skin" class="text_pole">${Object.entries(petSkins).map(([id, name]) => `<option value="${id}">${name}</option>`).join('')}</select>
@@ -289,6 +296,16 @@ function mount() {
             </div>
         </div>`);
     pet = mountPet(settings, options, save);
+    headerObserver = new ResizeObserver(([entry]) => {
+        root.style.setProperty('--gptweb-header-height', `${entry.borderBoxSize[0].blockSize}px`);
+    });
+    headerObserver.observe(document.querySelector('#gptweb-topbar'));
+    mountPluginNavigation(navigation.map(([id]) => id), openDrawer, closeMobile, scheduleRefresh, controller.signal);
+    for (const type of ['mousedown', 'touchstart']) {
+        document.querySelector('.gptweb-sidebar-content').addEventListener(type, event => {
+            if (event.target.closest('#gptweb-navigation, #gptweb-plugin-navigation')) event.stopPropagation();
+        }, options);
+    }
 
     for (const container of ['#gptweb-navigation', '#gptweb-welcome']) {
         document.querySelector(container).addEventListener('click', event => {
@@ -329,6 +346,10 @@ function mount() {
     }, options);
     document.querySelector('#gptweb-theme').addEventListener('change', event => {
         settings.theme = event.target.value;
+        save();
+    }, options);
+    document.querySelector('#gptweb-message-details').addEventListener('change', event => {
+        settings.messageDetails = event.target.checked;
         save();
     }, options);
     document.querySelector('#gptweb-pet-enabled').addEventListener('change', event => {
@@ -395,15 +416,17 @@ export function onDisable() {
     recentHistory.dispose();
     pet.dispose();
     observer.disconnect();
+    headerObserver.disconnect();
     clearInterval(profileTimer);
     cancelAnimationFrame(frame);
     frame = 0;
-    focusDrawerId = null;
+    focusDrawer = null;
     document.querySelectorAll('.gptweb-panel-heading').forEach(heading => heading.remove());
     for (const id of ['gptweb-sidebar', 'gptweb-scrim', 'gptweb-topbar', 'gptweb-welcome', 'gptweb-composer-note', 'gptweb-settings']) document.getElementById(id).remove();
     root.classList.remove('gptweb');
     root.style.removeProperty('--gptweb-height');
     root.style.removeProperty('--gptweb-top');
-    for (const key of ['gptwebTheme', 'gptwebCollapsed', 'gptwebMobile', 'gptwebWelcome', 'gptwebDrawer']) delete root.dataset[key];
+    root.style.removeProperty('--gptweb-header-height');
+    for (const key of ['gptwebTheme', 'gptwebCollapsed', 'gptwebMobile', 'gptwebWelcome', 'gptwebDrawer', 'gptwebMessageDetails']) delete root.dataset[key];
     mounted = false;
 }
