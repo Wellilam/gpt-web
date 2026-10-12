@@ -60,6 +60,9 @@ let recentHistory;
 let mounted = false;
 let subscriptions = [];
 const systemTheme = matchMedia('(prefers-color-scheme: dark)');
+root.dataset.gptwebLoading = settings.enabled
+    ? (settings.theme === 'system' ? (systemTheme.matches ? 'dark' : 'light') : settings.theme)
+    : 'off';
 const greetings = [
     ['{name}，今天想从哪里开始？', '早呀，{name}。今天有什么打算？', '新的一天，想聊些什么，{name}？', '{name}，要开启一段新的故事吗？'],
     ['{name}，午间休息，聊一会儿？', '中午好，{name}。有什么新鲜事？', '{name}，今天过得怎么样？', '忙了半天，来聊点轻松的吧，{name}。'],
@@ -82,6 +85,7 @@ function save() {
 function applyAppearance() {
     root.classList.toggle('gptweb', settings.enabled);
     root.dataset.gptwebTheme = settings.theme === 'system' ? (systemTheme.matches ? 'dark' : 'light') : settings.theme;
+    root.dataset.gptwebLoading = settings.enabled ? root.dataset.gptwebTheme : 'off';
     root.dataset.gptwebCollapsed = String(settings.collapsed);
     root.dataset.gptwebMessageDetails = String(settings.messageDetails);
     document.querySelector('#gptweb-message-details').checked = settings.messageDetails;
@@ -398,6 +402,9 @@ function mount() {
 }
 
 export function onActivate() {
+    root.dataset.gptwebLoading = settings.enabled
+        ? (settings.theme === 'system' ? (systemTheme.matches ? 'dark' : 'light') : settings.theme)
+        : 'off';
     context = SillyTavern.getContext();
     const events = [context.eventTypes.CHAT_CHANGED, context.eventTypes.CHARACTER_MESSAGE_RENDERED,
         context.eventTypes.USER_MESSAGE_RENDERED, context.eventTypes.CHARACTER_PAGE_LOADED,
@@ -409,6 +416,7 @@ export function onActivate() {
 }
 
 export function onDisable() {
+    delete root.dataset.gptwebLoading;
     for (const [event, listener] of subscriptions) context.eventSource.removeListener(event, listener);
     subscriptions = [];
     if (!mounted) return;

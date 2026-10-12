@@ -17,7 +17,7 @@ html.gptweb {
     --gw-rail: 256px;
     --gw-header: var(--gptweb-header-height, 64px);
     --gw-drawer-gap: 20px;
-    --gw-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    --gw-font: "Noto Sans SC", "Segoe UI", "Microsoft YaHei", sans-serif;
     --gw-chat: 820px;
 }
 html.gptweb[data-gptweb-theme="dark"] {
@@ -43,14 +43,65 @@ html.gptweb[data-gptweb-theme="tavern"] {
     --gw-accent: var(--SmartThemeQuoteColor);
     --gw-button: var(--SmartThemeBodyColor);
     --gw-button-text: var(--SmartThemeBlurTintColor);
-    --gw-font: var(--mainFontFamily);
 }
 html.gptweb[data-gptweb-collapsed="true"] { --gw-rail: 64px; }
-html.gptweb body { background: var(--gw-page); }
+html.gptweb body {
+    background: var(--gw-page);
+    font-family: var(--gw-font);
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+}
 html.gptweb :is(#gptweb-sidebar, #gptweb-topbar, #gptweb-welcome, #form_sheld, #options, #extensionsMenu) { --shadowWidth: 0; --SmartThemeShadowColor: transparent; }
 html.gptweb:not([data-gptweb-theme="tavern"]) #bg1,
 html.gptweb:not([data-gptweb-theme="tavern"]) #bg_custom,
 html.gptweb #top-bar { display: none !important; }
+
+html[data-gptweb-loading="light"] #loader.splash-screen,
+html[data-gptweb-loading="dark"] #loader.splash-screen,
+html[data-gptweb-loading="tavern"] #loader.splash-screen {
+    display: flex;
+    gap: 0;
+    backdrop-filter: none;
+}
+html[data-gptweb-loading="light"] #loader.splash-screen::before,
+html[data-gptweb-loading="dark"] #loader.splash-screen::before,
+html[data-gptweb-loading="tavern"] #loader.splash-screen::before {
+    content: '';
+    display: flex;
+    width: 80px;
+    height: 80px;
+    background: url('./loading-mark.svg') center / contain no-repeat;
+    animation: gptweb-app-splash 700ms cubic-bezier(.2,.8,.2,1) both;
+}
+html[data-gptweb-loading="light"] #loader.splash-screen {
+    background: #ffffff;
+    color: #0d0d0d;
+}
+html[data-gptweb-loading="dark"] #loader.splash-screen {
+    background: #0d0d0d;
+    color: #ffffff;
+}
+html[data-gptweb-loading="dark"] #loader.splash-screen::before {
+    filter: invert(1);
+}
+html[data-gptweb-loading="tavern"] #loader.splash-screen {
+    background: var(--SmartThemeBlurTintColor, #ffffff);
+    color: var(--SmartThemeBodyColor, #202123);
+}
+html[data-gptweb-loading="light"] #loader.splash-screen > *,
+html[data-gptweb-loading="dark"] #loader.splash-screen > *,
+html[data-gptweb-loading="tavern"] #loader.splash-screen > *,
+html[data-gptweb-loading="light"] #loader.splash-screen #load-spinner,
+html[data-gptweb-loading="dark"] #loader.splash-screen #load-spinner,
+html[data-gptweb-loading="tavern"] #loader.splash-screen #load-spinner { display: none !important; visibility: hidden !important; }
+@keyframes gptweb-app-splash {
+    0% { opacity: 0; transform: scale(.78); }
+    65% { opacity: 1; transform: scale(1.04); }
+    100% { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+    html[data-gptweb-loading] #loader.splash-screen::before { animation: none; }
+}
 
 #gptweb-sidebar, #gptweb-topbar, #gptweb-scrim, #gptweb-welcome, #gptweb-composer-note { display: none; }
 #gptweb-pet { display: none; }
