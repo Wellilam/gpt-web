@@ -9,7 +9,7 @@
 - 酒馆启动入口在创建 `#loader.splash-screen` 前读取 GPT Web 设置，预先写入加载标记和样式；首个 loader 采样点直接显示居中结形标志，不再显示原生齿轮。初始化完成后保留宿主 `#loader` 的淡出与移除。
 - 浅色、深色和跟随酒馆主题使用对应背景；原生 logo、齿轮和初始化文字隐藏。
 - `?gptweb=off` 保留酒馆原生启动画面；扩展禁用后移除加载标记，重新激活已启动完成的页面时不创建无效遮罩。
-- 启动预加载补丁位于当前隔离实例使用的 `D:\AI\个人\sillytavern\public\script.js`，原文件保留同名 `.bak-20261012-gptweb-loading` 回滚副本。
+- 启动预加载补丁已整理到仓库的 `patches/startup-loader.patch`，当前隔离实例使用的 `D:\AI\个人\sillytavern\public\script.js` 已应用，原文件保留同名 `.bak-20261012-gptweb-loading` 回滚副本；补丁在干净的 SillyTavern 1.19.0 文件上可检查、应用、反向回滚，并通过 Node 语法检查。
 - GPT Web 外壳和原生设置面板统一使用本机可用的 `Noto Sans SC` 字体栈，并关闭字体合成；聊天卡片 HTML 与 iframe 不进入作用域。
 - `#preloader` 仍由酒馆核心在扩展加载前显示；本次首帧只验证了预加载样式对随后创建的启动 loader 生效。
 - 官方资料未公开 Android App 的精确动画时长与缓动参数，本实现记录为视觉近似。

@@ -1,0 +1,47 @@
+diff --git a/public/script.js b/public/script.js
+--- a/public/script.js
++++ b/public/script.js
+@@ -701,6 +701,43 @@ async function firstLoadInit() {
+         throw new Error('Initialization failed');
+     }
+ 
++    const gptWebQuery = new URLSearchParams(location.search).get('gptweb');
++    const gptWebSettings = JSON.parse(localStorage.getItem('gpt-web:settings') || '{}');
++    const gptWebBootstrapEnabled = gptWebQuery === 'on' || (gptWebQuery !== 'off' && gptWebSettings.enabled !== false);
++    if (gptWebBootstrapEnabled) {
++        const gptWebTheme = gptWebSettings.theme === 'dark' || ((gptWebSettings.theme || 'system') === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)
++            ? 'dark'
++            : gptWebSettings.theme === 'tavern' ? 'tavern' : 'light';
++        document.documentElement.dataset.gptwebLoading = gptWebTheme;
++        const gptWebBootstrapStyle = document.createElement('style');
++        gptWebBootstrapStyle.dataset.gptwebBootstrap = 'loading';
++        gptWebBootstrapStyle.textContent = `
++            html[data-gptweb-loading="light"] #loader.splash-screen,
++            html[data-gptweb-loading="dark"] #loader.splash-screen,
++            html[data-gptweb-loading="tavern"] #loader.splash-screen { display: flex; gap: 0; backdrop-filter: none; }
++            html[data-gptweb-loading="light"] #loader.splash-screen::before,
++            html[data-gptweb-loading="dark"] #loader.splash-screen::before,
++            html[data-gptweb-loading="tavern"] #loader.splash-screen::before {
++                content: ''; display: flex; width: 80px; height: 80px;
++                background: url('/scripts/extensions/third-party/gpt-web/loading-mark.svg') center / contain no-repeat;
++                animation: gptweb-app-splash 700ms cubic-bezier(.2,.8,.2,1) both;
++            }
++            html[data-gptweb-loading="light"] #loader.splash-screen { background: #fff; color: #0d0d0d; }
++            html[data-gptweb-loading="dark"] #loader.splash-screen { background: #0d0d0d; color: #fff; }
++            html[data-gptweb-loading="dark"] #loader.splash-screen::before { filter: invert(1); }
++            html[data-gptweb-loading="tavern"] #loader.splash-screen { background: var(--SmartThemeBlurTintColor, #fff); color: var(--SmartThemeBodyColor, #202123); }
++            html[data-gptweb-loading="light"] #loader.splash-screen > *,
++            html[data-gptweb-loading="dark"] #loader.splash-screen > *,
++            html[data-gptweb-loading="tavern"] #loader.splash-screen > * { display: none !important; visibility: hidden !important; }
++            @keyframes gptweb-app-splash {
++                0% { opacity: 0; transform: scale(.78); }
++                65% { opacity: 1; transform: scale(1.04); }
++                100% { opacity: 1; transform: scale(1); }
++            }
++        `;
++        document.head.append(gptWebBootstrapStyle);
++    }
++
+     const initLoaderOverlay = loader.createOverlay();
+     initLoaderOverlay.classList.add('splash-screen');
+ 
