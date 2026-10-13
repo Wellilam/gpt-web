@@ -30,15 +30,32 @@ html.gptweb #chat > .mes > .mes_block > .mes_text {
 html.gptweb #chat > .mes > .mes_block > .ch_name > :is(.mes_buttons, .mes_edit_buttons) {
     order: 10;
     align-self: flex-start;
+    display: flex;
+    align-items: center;
     max-width: calc(100% - 112px);
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 4px;
     margin-top: 12px;
-    padding: 0;
     overflow: visible;
     filter: none;
 }
+html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_buttons {
+    padding: 3px;
+    border: 1px solid var(--gw-line);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--gw-surface) 82%, transparent);
+}
+html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_edit_buttons {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_edit_buttons::-webkit-scrollbar { display: none; }
 html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_buttons > .extraMesButtons { flex-wrap: wrap; justify-content: flex-start; gap: 4px; padding: 0; }
 html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button) {
     color: var(--gw-muted);
@@ -57,15 +74,20 @@ html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button) 
     box-shadow: none;
     filter: none;
 }
+html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_edit_buttons :is(.mes_button, .menu_button) {
+    background: var(--gw-surface);
+    border: 1px solid var(--gw-line);
+}
 html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button):hover { background: var(--gw-hover); color: var(--gw-text); }
 html.gptweb #chat > .mes > .swipe_left,
-html.gptweb #chat > .mes > .swipeRightBlock :is(.swipe_right, .swipes-counter) { color: var(--gw-muted); opacity: 1; text-shadow: none; filter: none; }
-html.gptweb #chat > .mes > .swipe_left { left: auto; right: 76px; bottom: 28px; width: 32px; height: 32px; padding: 8px; font-size: 14px; }
-html.gptweb #chat > .mes > .swipeRightBlock { right: 0; bottom: 28px; height: 32px; flex-direction: row; align-items: center; gap: 0; }
+html.gptweb #chat > .mes > .swipeRightBlock { bottom: 28px; height: 38px; border: 1px solid var(--gw-line); border-radius: 12px; background: color-mix(in srgb, var(--gw-surface) 82%, transparent); color: var(--gw-muted); opacity: 1; text-shadow: none; filter: none; }
+html.gptweb #chat > .mes > .swipe_left { left: auto; right: 76px; width: 38px; padding: 11px; font-size: 14px; }
+html.gptweb #chat > .mes > .swipeRightBlock { right: 0; flex-direction: row; align-items: center; gap: 0; }
 html.gptweb #chat > .mes > .swipeRightBlock > .swipes-counter { order: -1; height: 32px; margin: 0; padding: 8px 2px; font: 12px/16px var(--gw-font); min-width: 44px; }
 html.gptweb #chat > .mes > .swipeRightBlock > .swipe_right { width: 32px; height: 32px; font-size: 14px; }
 html.gptweb #chat > .mes > .swipe_left:hover,
-html.gptweb #chat > .mes > .swipeRightBlock > .swipe_right:hover { border-radius: 8px; background: var(--gw-hover); }
+html.gptweb #chat > .mes > .swipeRightBlock > .swipe_right:hover,
+html.gptweb #chat > .mes > .swipeRightBlock:hover { border-radius: 8px; background: var(--gw-hover); }
 html.gptweb #chat > .mes[is_user="true"] { width: fit-content; max-width: 85%; align-self: flex-end; padding-block: 16px; }
 html.gptweb #chat > .mes[is_user="true"] > .mes_block > .mes_text { background: var(--gw-surface); border-radius: 24px; padding: 12px 20px; }
 html.gptweb #chat > .mes[is_user="true"] > .mes_block > .ch_name > :is(.mes_buttons, .mes_edit_buttons) { align-self: flex-end; max-width: 100%; }
@@ -81,5 +103,5 @@ html.gptweb #send_form :is(#options_button, #extensionsMenuButton, #mes_stop, #m
 html.gptweb #send_form :is(#options_button, #extensionsMenuButton):hover { background: var(--gw-hover); color: var(--gw-text); }
 html.gptweb #extensionsMenuButton::before { content: '\f067'; }
 @media (max-width: 700px) {
-    html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button) { min-width: 40px; height: 40px; padding: 12px; }
+    html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button) { min-width: 36px; height: 36px; padding: 10px; }
 }

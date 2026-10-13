@@ -191,7 +191,7 @@ function refresh() {
     const entries = current.characters.map((character, id) => ({ character, id }))
         .sort((a, b) => Number(b.character.date_last_chat || 0) - Number(a.character.date_last_chat || 0))
         .slice(0, 8);
-    const signature = JSON.stringify(entries.map(({ character, id }) => [id, character.name]));
+    const signature = JSON.stringify(entries.map(({ character, id }) => [id, character.name, character.avatar]));
     if (list.dataset.signature !== signature) {
         const focusedId = document.activeElement.closest('#gptweb-characters [data-character]')?.dataset.character;
         list.replaceChildren();
@@ -201,9 +201,16 @@ function refresh() {
             button.className = 'gptweb-row gptweb-character';
             button.dataset.character = String(id);
             button.title = character.name;
-            const avatar = document.createElement('span');
+            const avatar = character.avatar && character.avatar !== 'none'
+                ? document.createElement('img')
+                : document.createElement('span');
             avatar.className = 'gptweb-initial';
-            avatar.textContent = character.name.slice(0, 1);
+            if (avatar.tagName === 'IMG') {
+                avatar.src = current.getThumbnailUrl('avatar', character.avatar);
+                avatar.alt = character.name;
+            } else {
+                avatar.textContent = character.name.slice(0, 1);
+            }
             const label = document.createElement('span');
             label.textContent = character.name;
             button.append(avatar, label);
