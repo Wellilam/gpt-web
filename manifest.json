@@ -4,7 +4,7 @@
     "js": "index.js",
     "css": "style.css",
     "author": "Wellilam",
-    "version": "0.5.4",
+    "version": "0.5.5",
     "homePage": "https://github.com/Wellilam/gpt-web",
     "hooks": {
         "activate": "onActivate",
@@ -13,3 +13,4 @@
         "clean": "onDisable"
     }
 }
+

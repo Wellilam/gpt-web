@@ -30,9 +30,8 @@ html.gptweb #chat > .mes > .mes_block > .mes_text {
 html.gptweb #chat > .mes > .mes_block > .ch_name > :is(.mes_buttons, .mes_edit_buttons) {
     order: 10;
     align-self: flex-start;
-    display: flex;
     align-items: center;
-    max-width: calc(100% - 112px);
+    max-width: calc(100% - 128px);
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 4px;
@@ -50,13 +49,28 @@ html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_edit_buttons {
     padding: 0;
     border: 0;
     background: transparent;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     max-width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
 }
-html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_edit_buttons::-webkit-scrollbar { display: none; }
-html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_buttons > .extraMesButtons { flex-wrap: wrap; justify-content: flex-start; gap: 4px; padding: 0; }
+/* The host owns display/visible and closes this menu on outside clicks. */
+html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_buttons > .extraMesButtons {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    width: max-content;
+    max-width: min(300px, calc(100vw - 72px));
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 8px;
+    border: 1px solid var(--gw-line);
+    border-radius: 12px;
+    background: var(--gw-surface);
+    box-shadow: 0 4px 16px #0002;
+    z-index: 2;
+}
+html.gptweb #chat > .mes[is_user="true"] > .mes_block > .ch_name > .mes_buttons > .extraMesButtons { left: auto; right: 0; }
+html.gptweb #chat > .mes:has(> .mes_block > .mes_text > .edit_textarea) { padding-bottom: 76px; }
 html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button) {
     color: var(--gw-muted);
     background: transparent;
@@ -80,16 +94,22 @@ html.gptweb #chat > .mes > .mes_block > .ch_name > .mes_edit_buttons :is(.mes_bu
 }
 html.gptweb #chat > .mes > .mes_block > .ch_name :is(.mes_button, .menu_button):hover { background: var(--gw-hover); color: var(--gw-text); }
 html.gptweb #chat > .mes > .swipe_left,
-html.gptweb #chat > .mes > .swipeRightBlock { bottom: 28px; height: 38px; border: 1px solid var(--gw-line); border-radius: 12px; background: color-mix(in srgb, var(--gw-surface) 82%, transparent); color: var(--gw-muted); opacity: 1; text-shadow: none; filter: none; }
-html.gptweb #chat > .mes > .swipe_left { left: auto; right: 76px; width: 38px; padding: 11px; font-size: 14px; }
-html.gptweb #chat > .mes > .swipeRightBlock { right: 0; flex-direction: row; align-items: center; gap: 0; }
+html.gptweb #chat > .mes > .swipeRightBlock { bottom: 28px; height: 38px; border: 1px solid var(--gw-line); border-radius: 12px; background: color-mix(in srgb, var(--gw-surface) 82%, transparent); color: var(--gw-muted); opacity: 1; text-shadow: none; filter: none; z-index: 4005; }
+html.gptweb #chat > .mes > .swipe_left { left: auto; right: 78px; width: 38px; padding: 11px; font-size: 14px; border-radius: 12px 0 0 12px; }
+html.gptweb #chat > .mes > .swipeRightBlock { right: 0; width: 78px; flex-direction: row; align-items: center; gap: 0; border-left: 0; border-radius: 0 12px 12px 0; }
+html.gptweb #chat > .mes > .swipeRightBlock :is(.swipe_right, .swipes-counter) { color: var(--gw-muted); text-shadow: none; filter: none; }
 html.gptweb #chat > .mes > .swipeRightBlock > .swipes-counter { order: -1; height: 32px; margin: 0; padding: 8px 2px; font: 12px/16px var(--gw-font); min-width: 44px; }
 html.gptweb #chat > .mes > .swipeRightBlock > .swipe_right { width: 32px; height: 32px; font-size: 14px; }
+/* Pause the floating pet while message actions are open. */
+html.gptweb:has(.edit_textarea) #gptweb-pet,
+html.gptweb:has(.extraMesButtons.visible) #gptweb-pet { visibility: hidden; }
 html.gptweb #chat > .mes > .swipe_left:hover,
 html.gptweb #chat > .mes > .swipeRightBlock > .swipe_right:hover,
-html.gptweb #chat > .mes > .swipeRightBlock:hover { border-radius: 8px; background: var(--gw-hover); }
+html.gptweb #chat > .mes > .swipeRightBlock:hover { background: var(--gw-hover); }
 html.gptweb #chat > .mes[is_user="true"] { width: fit-content; max-width: 85%; align-self: flex-end; padding-block: 16px; }
+html.gptweb #chat > .mes[is_user="true"] > .mes_block { flex: 1; width: auto; margin: 0; }
 html.gptweb #chat > .mes[is_user="true"] > .mes_block > .mes_text { background: var(--gw-surface); border-radius: 24px; padding: 12px 20px; }
+html.gptweb #chat > .mes[is_user="true"] > .mes_block > .mes_text { box-sizing: border-box; min-width: 0; max-width: 100%; margin: 0; overflow-wrap: anywhere; }
 html.gptweb #chat > .mes[is_user="true"] > .mes_block > .ch_name > :is(.mes_buttons, .mes_edit_buttons) { align-self: flex-end; max-width: 100%; }
 html.gptweb #chat > .mes > .mesAvatarWrapper > .avatar { width: 28px; height: 28px; }
 html.gptweb #chat > .mes > .mesAvatarWrapper > .avatar > img { width: 28px; height: 28px; border: 0; box-shadow: none; border-radius: 50%; }
