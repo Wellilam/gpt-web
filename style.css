@@ -398,7 +398,10 @@ html.gptweb #extensionTopBar > .right_menu_button { flex: 0 0 32px; width: 32px;
 html.gptweb #extensionTopBar > .right_menu_button:hover { background: var(--gw-hover); }
 html.gptweb :is(#extensionTopBarChatName, #extensionTopBarSearchInput, #extensionConnectionProfilesSelect) { flex: 1 1 120px; min-width: 0; width: auto; max-width: 100%; margin: 0; padding: 8px; border: 1px solid var(--gw-line); border-radius: 8px; background-color: var(--gw-surface); color: var(--gw-text); font: 14px var(--gw-font); }
 @media (max-width: 700px) {
-    html.gptweb #extensionTopBarSearchInput { order: 1; flex-basis: 100%; }
+    html.gptweb #extensionTopBar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    html.gptweb #extensionTopBar::-webkit-scrollbar { display: none; }
+    html.gptweb #extensionTopBarSearchInput { order: 0; flex: 0 0 94px; width: 94px; }
+    html.gptweb #extensionTopBarChatName { flex: 0 0 108px; width: 108px; }
 }
 html.gptweb #gptweb-composer-note { display: block; text-align: center; color: var(--gw-muted); font: 11px var(--gw-font); margin-top: 10px; white-space: normal; }
 html.gptweb[data-gptweb-theme="tavern"] #sheld { background: var(--SmartThemeChatTintColor); }
