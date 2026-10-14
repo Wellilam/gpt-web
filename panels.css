@@ -316,6 +316,10 @@ html.gptweb :is(body > .select2-container, body > dialog.popup .select2-containe
 }
 
 @media (max-width: 700px) {
+    /* Give preset names the full panel width before laying out their actions. */
+    html.gptweb #respective-presets-block .flex-container:has(> select[data-preset-manager-for]) { flex-wrap: wrap; gap: 8px; }
+    html.gptweb #respective-presets-block select[data-preset-manager-for] { flex: 0 0 100%; width: 100%; margin: 0; }
+    html.gptweb #respective-presets-block select[data-preset-manager-for] + .flex-container { margin-left: 0; }
     /* Mobile management uses a search-first list and a separate secondary tools disclosure. */
     html.gptweb #top-settings-holder > .drawer > .drawer-content :where(p, span, small, label, h2, h3, h4, b, strong, .ch_description, .ch_name):not([class*="fa-"]) { font-family: var(--gw-font); text-shadow: none; }
     html.gptweb #top-settings-holder > .drawer > .drawer-content :is(input[type=text], input[type=search], textarea, select):not(.select2-search__field) { font-size: 16px; min-height: 44px; }
