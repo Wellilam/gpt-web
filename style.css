@@ -112,7 +112,7 @@ html.gptweb #gptweb-pet:not([hidden]) {
     display: block;
     position: fixed;
     right: 16px;
-    top: max(calc(var(--gptweb-top, 0px) + var(--gw-header) + 8px), calc(var(--gptweb-top, 0px) + var(--gptweb-height, 100dvh) - var(--gptweb-composer-height, 112px) - var(--gw-pet-height) - 88px));
+    top: max(calc(var(--gptweb-top, 0px) + var(--gw-header) + 8px), calc(var(--gptweb-top, 0px) + var(--gptweb-height, 100dvh) - var(--gptweb-composer-height, 112px) - var(--gw-pet-height) - 8px));
     width: var(--gw-pet-width);
     height: var(--gw-pet-height);
     padding: 0;
