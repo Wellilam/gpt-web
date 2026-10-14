@@ -131,7 +131,7 @@ html.gptweb #gptweb-sidebar {
     display: flex;
     flex-direction: column;
     position: fixed;
-    top: var(--gptweb-top, 0px);
+    top: max(0px, var(--gptweb-top, 0px));
     left: 0;
     width: var(--gw-rail);
     height: var(--gptweb-height, 100dvh);
@@ -228,7 +228,7 @@ html.gptweb #gptweb-topbar {
     align-items: center;
     gap: 16px;
     position: fixed;
-    top: var(--gptweb-top, 0px);
+    top: max(0px, var(--gptweb-top, 0px));
     left: var(--gw-rail);
     right: 0;
     min-height: 64px;
@@ -277,7 +277,7 @@ html.gptweb #top-settings-holder > .drawer > .drawer-content {
     --SmartThemeUnderlineColor: var(--gw-accent);
     --sheldWidth: min(940px, calc(100vw - var(--gw-rail) - 40px));
     position: fixed !important;
-    top: calc(var(--gw-header) + var(--gptweb-top, 0px)) !important;
+    top: calc(var(--gw-header) + max(0px, var(--gptweb-top, 0px))) !important;
     left: calc(var(--gw-rail) + 20px) !important;
     right: 20px !important;
     bottom: auto;
@@ -304,7 +304,7 @@ html.gptweb #top-settings-holder > .drawer > .drawer-content.openDrawer {
 /* Only message containers are styled. No rules target card HTML or iframe contents. */
 html.gptweb #sheld {
     position: fixed !important;
-    top: calc(var(--gw-header) + var(--gptweb-top, 0px)) !important;
+    top: calc(var(--gw-header) + max(0px, var(--gptweb-top, 0px))) !important;
     left: var(--gw-rail) !important;
     right: 0 !important;
     width: calc(100vw - var(--gw-rail)) !important;
