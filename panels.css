@@ -315,6 +315,40 @@ html.gptweb :is(body > .select2-container, body > dialog.popup .select2-containe
     & .select2-results__option--highlighted[aria-selected], & .select2-results__option--selected { background: var(--gw-hover); color: var(--gw-text); }
 }
 
+@media (min-width: 701px) {
+    /* Keep one scroll owner in the native character editor and stop its avatar row from competing at 100% width. */
+    html.gptweb[data-gptweb-panels~="characters"] #right-nav-panel > .scrollableInner {
+        min-height: 0;
+        height: auto;
+        max-height: none;
+        flex: 1 1 auto;
+        overflow-y: auto;
+    }
+    html.gptweb[data-gptweb-panels~="characters"] #right-nav-panel :is(#rm_ch_create_block, #form_create) {
+        min-height: 0;
+        height: auto;
+        overflow: visible;
+    }
+    html.gptweb[data-gptweb-panels~="characters"] #right-nav-panel #avatar_div_div {
+        flex: 0 0 var(--avatar-base-width);
+        width: var(--avatar-base-width);
+        height: var(--avatar-base-height);
+    }
+    html.gptweb[data-gptweb-panels~="characters"] #right-nav-panel #avatar_controls {
+        min-width: 0;
+        width: auto;
+        height: auto;
+        flex: 1 1 0;
+    }
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+    /* Medium desktop widths need the preset name before its native action buttons. */
+    html.gptweb[data-gptweb-panels~="presets"] #respective-presets-block .flex-container:has(> select[data-preset-manager-for]) { flex-wrap: wrap; gap: 8px; }
+    html.gptweb[data-gptweb-panels~="presets"] #respective-presets-block select[data-preset-manager-for] { flex: 0 0 100%; width: 100%; margin: 0; }
+    html.gptweb[data-gptweb-panels~="presets"] #respective-presets-block select[data-preset-manager-for] + .flex-container { margin-left: 0; }
+}
+
 @media (max-width: 700px) {
     /* Give preset names the full panel width before laying out their actions. */
     html.gptweb #respective-presets-block .flex-container:has(> select[data-preset-manager-for]) { flex-wrap: wrap; gap: 8px; }

@@ -175,16 +175,20 @@ function refresh() {
     document.querySelector('#gptweb-title').textContent = hasCharacter ? current.name2 : 'GPT Web';
     document.querySelector('#gptweb-status').textContent = current.onlineStatus === 'no_connection' ? '连接模型以开始' : 'SillyTavern';
 
-    const panel = document.querySelector('#top-settings-holder > .drawer > .drawer-content.openDrawer');
-    root.dataset.gptwebDrawer = String(Boolean(panel));
+    const panels = [...document.querySelectorAll('#top-settings-holder > .drawer > .drawer-content.openDrawer')];
+    const panelKinds = { rightNavHolder: 'characters', 'ai-config-button': 'presets', 'WI-SP-button': 'worldbook' };
+    const openKinds = [...new Set(panels.map(panel => panelKinds[panel.parentElement.id] || 'other'))];
+    root.dataset.gptwebDrawer = String(panels.length > 0);
+    if (openKinds.length) root.dataset.gptwebPanels = openKinds.join(' ');
+    else delete root.dataset.gptwebPanels;
     pet.refresh();
-    document.querySelector('#gptweb-close-drawer').hidden = !panel;
-    if (panel && panel.parentElement === focusDrawer) {
+    document.querySelector('#gptweb-close-drawer').hidden = panels.length === 0;
+    if (panels.some(panel => panel.parentElement === focusDrawer)) {
         document.querySelector('#gptweb-close-drawer').focus();
         focusDrawer = null;
     }
     for (const button of document.querySelectorAll('#gptweb-navigation [data-drawer]')) {
-        button.setAttribute('aria-expanded', String(Boolean(panel && button.dataset.drawer === panel.parentElement.id)));
+        button.setAttribute('aria-expanded', String(panels.some(panel => button.dataset.drawer === panel.parentElement.id)));
     }
 
     const list = document.querySelector('#gptweb-characters');
@@ -442,6 +446,6 @@ export function onDisable() {
     root.style.removeProperty('--gptweb-height');
     root.style.removeProperty('--gptweb-top');
     root.style.removeProperty('--gptweb-header-height');
-    for (const key of ['gptwebTheme', 'gptwebCollapsed', 'gptwebMobile', 'gptwebWelcome', 'gptwebDrawer', 'gptwebMessageDetails']) delete root.dataset[key];
+    for (const key of ['gptwebTheme', 'gptwebCollapsed', 'gptwebMobile', 'gptwebWelcome', 'gptwebDrawer', 'gptwebPanels', 'gptwebMessageDetails']) delete root.dataset[key];
     mounted = false;
 }

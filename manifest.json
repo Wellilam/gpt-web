@@ -4,7 +4,8 @@
     "js": "index.js",
     "css": "style.css",
     "author": "Wellilam",
-    "version": "0.5.5",
+    "version": "0.5.6",
+    "minimum_client_version": "1.19.0",
     "homePage": "https://github.com/Wellilam/gpt-web",
     "hooks": {
         "activate": "onActivate",
